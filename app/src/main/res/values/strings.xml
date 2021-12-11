@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Praktikum</string>
+    <string name="laki">Laki-laki</string>
+    <string name="perempuan">Perempuan</string>
+    <string name="mudah">Mudah</string>
+    <string name="sedang">Sedang</string>
+    <string name="susah">Susah</string>
+    <string name="hint">Manny, Moe and Jack\nThey know what I\'m after.</string>
+    <string name="hintTahap">1. Rebus ayam pada air panas\n2. Masukan sayur-sayuran ke panci\n3. dll</string>
+    <string name="hintBahan">1. 100g ayam cincang\n2. 2 buah wortel\n3. dll</string>
+</resources>

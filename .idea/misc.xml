@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/drawable-anydpi/btn_round.xml" value="0.19071729957805908" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/drawable-anydpi/login_button_bk.xml" value="0.19071729957805908" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/drawable-anydpi/profile_back_button.xml" value="0.19071729957805908" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/drawable-anydpi/profile_bk.xml" value="0.19071729957805908" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/activity_detail_chord.xml" value="0.1799145299145299" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/activity_detail_resep.xml" value="0.33" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/activity_detail_resep2.xml" value="0.18333333333333332" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/activity_main.xml" value="0.1799145299145299" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/activity_main2.xml" value="0.18333333333333332" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/activity_profile.xml" value="0.18" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/activity_sign_in.xml" value="0.22" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/activity_signup.xml" value="0.18333333333333332" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/activity_tambah_chord.xml" value="0.25" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/activity_tambah_resep.xml" value="0.25" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/activity_topic.xml" value="0.18333333333333332" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/list_chord.xml" value="0.18333333333333332" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/layout/list_resep.xml" value="0.25" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum - Copy/app/src/main/res/menu/menu_main.xml" value="0.18333333333333332" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/drawable-anydpi/ic_back.xml" value="0.19658119658119658" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/drawable-anydpi/ic_more_btn.xml" value="0.19658119658119658" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/drawable-hdpi/radius_main.xml" value="0.19658119658119658" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/drawable/frame.xml" value="0.19658119658119658" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/drawable/ic_add.xml" value="0.19658119658119658" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/drawable/round_primary.xml" value="0.19658119658119658" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/layout-v28/activity_tambah_resep.xml" value="0.2234375" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/layout/activity_detail_resep.xml" value="0.25" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/layout/activity_detail_resep2.xml" value="0.18468468468468469" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/layout/activity_main2.xml" value="0.19684684684684683" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/layout/activity_signup.xml" value="0.33" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/layout/activity_tambah_resep.xml" value="0.22" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/layout/list_resep.xml" value="0.33" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/layout/menu_main.xml" value="0.1" />
+        <entry key="..\:/Users/wiart/AndroidStudioProjects/Praktikum/app/src/main/res/menu/menu_main.xml" value="0.25" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
