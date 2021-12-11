@@ -163,8 +163,8 @@ public class DBHelper extends SQLiteOpenHelper {
     //add with id
     public void add (Integer id, String judul, String penyanyi, String genre, String level, String durasiMenit, String durasiDetik, String chordLirik){
         SQLiteDatabase database = this.getWritableDatabase();
-        String QUERY = "INSERT INTO chord (judul, penyanyi,  genre, level, durasi_menit, durasi_detik, chord_lirik)" +
-                "VALUES ('"+judul+"', '"+penyanyi+"', '"+genre+"', '"+level+"', '"+durasiMenit+"', '"+durasiDetik+"', '"+chordLirik+"')";
+        String QUERY = "INSERT INTO chord (id, judul, penyanyi,  genre, level, durasi_menit, durasi_detik, chord_lirik)" +
+                "VALUES ('"+id+"','"+judul+"', '"+penyanyi+"', '"+genre+"', '"+level+"', '"+durasiMenit+"', '"+durasiDetik+"', '"+chordLirik+"')";
         database.execSQL(QUERY);
     }
 }

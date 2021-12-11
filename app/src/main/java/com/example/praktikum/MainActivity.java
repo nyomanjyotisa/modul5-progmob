@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity{
                                             chordObject.getInt("id"),
                                             chordObject.getString("judul"),
                                             chordObject.getString("penyanyi"),
-                                            chordObject.getString("level"),
                                             chordObject.getString("genre"),
+                                            chordObject.getString("level"),
                                             chordObject.getString("durasi_menit"),
                                             chordObject.getString("durasi_detik"),
                                             chordObject.getString("chord_dan_lirik")

@@ -299,6 +299,10 @@ public class TambahChordActivity extends AppCompatActivity {
 
 
         if (isEditMode){ //update data
+
+            //penempatan sementara
+            updateToWebServe();
+
             dbHelper.update(""+id,
                     ""+judul_lagu,
                     ""+nama_penyanyi,
@@ -398,12 +402,59 @@ public class TambahChordActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(TambahChordActivity.this,"No Connection",Toast.LENGTH_SHORT).show();
+                Toast.makeText(TambahChordActivity.this,"Add Gagal",Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
+                map.put("judul",judul_lagu);
+                map.put("penyanyi", nama_penyanyi);
+                map.put("level",level_lagu);
+                map.put("genre", genre_lagu);
+                map.put("durasi_menit", menit_lagu);
+                map.put("durasi_detik", detik_lagu);
+                map.put("chord_dan_lirik", chord_lagu);
+                return map;
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+    public void updateToWebServe(){
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url =Constant.UPDATE_CHORD;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if(object.getBoolean("success")){
+                                Intent intent = new Intent(TambahChordActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                Toast.makeText(getApplicationContext(), "Update Data Success", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(TambahChordActivity.this,"Update Gagal",Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("id",id);
                 map.put("judul",judul_lagu);
                 map.put("penyanyi", nama_penyanyi);
                 map.put("level",level_lagu);

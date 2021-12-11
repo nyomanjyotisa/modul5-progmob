@@ -11,18 +11,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.praktikum.Chord;
+import com.example.praktikum.Constant;
 import com.example.praktikum.DetailChordActivity;
 import com.example.praktikum.MainActivity;
 import com.example.praktikum.R;
 import com.example.praktikum.TambahChordActivity;
 import com.example.praktikum.helper.DBHelper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
     private Context context;
@@ -143,6 +157,7 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
                 //tombol delete diklik
                 else if (which==1){
                     databaseHelper.delete(id);
+                    deleteOnWebServer(id);
                     ((MainActivity)context).onResume();
                 }
             }
@@ -150,4 +165,40 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
         builder.create().show();
     }
 
+    public void deleteOnWebServer(String id){
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Constant.DELETE_CHORD;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.getBoolean("success")){
+                                Toast.makeText(context,"Delete Verhasil",Toast.LENGTH_SHORT).show();
+                                ((MainActivity)context).onResume();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Delete GAGAL",Toast.LENGTH_SHORT).show();
+            }
+        }){
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("id",id);
+                return map;
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
 }
