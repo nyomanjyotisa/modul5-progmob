@@ -17,7 +17,20 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.praktikum.helper.DBHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TambahChordActivity extends AppCompatActivity {
     EditText nama,penyanyi, chordl;
@@ -279,6 +292,8 @@ public class TambahChordActivity extends AppCompatActivity {
             genre_lagu += "-Blues ";
         }
 
+
+
         if (isEditMode){ //update data
             dbHelper.update(""+id,
                     ""+judul_lagu,
@@ -295,6 +310,10 @@ public class TambahChordActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else { //insert data baru ke tabel
+
+            //penempatan sementara
+            insertToWebServer();
+
             dbHelper.insert(
                     ""+judul_lagu,
                     ""+nama_penyanyi,
@@ -311,5 +330,51 @@ public class TambahChordActivity extends AppCompatActivity {
 
             startActivity(intent);
         }
+    }
+
+    private void insertToWebServer(){
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url =Constant.ADD_CHORD;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if(object.getBoolean("success")){
+                                Intent intent = new Intent(TambahChordActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                Toast.makeText(getApplicationContext(), "Add Data Success", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(TambahChordActivity.this,"No Connection",Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("judul",judul_lagu);
+                map.put("penyanyi", nama_penyanyi);
+                map.put("level",level_lagu);
+                map.put("genre", genre_lagu);
+                map.put("durasi_menit", menit_lagu);
+                map.put("durasi_detik", detik_lagu);
+                map.put("chord_dan_lirik", chord_lagu);
+                return map;
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 }

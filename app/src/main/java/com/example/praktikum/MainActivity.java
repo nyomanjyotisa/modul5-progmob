@@ -28,8 +28,18 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.praktikum.adapter.DBAdapter;
 import com.example.praktikum.helper.DBHelper;
+
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -62,9 +72,51 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void loadRecords() {
-        DBAdapter adapter = new DBAdapter(MainActivity.this, dbHelper.getChord());
-        listChord.setAdapter(adapter);
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constant.CHORDS;
 
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.getBoolean("success")){
+                                dbHelper.deleteSemua();
+                                JSONArray array = new JSONArray(object.getString("data"));
+                                for(int i=0;i<array.length();i++){
+                                    JSONObject chordObject = array.getJSONObject(i);
+                                    dbHelper.add(
+                                            chordObject.getInt("id"),
+                                            chordObject.getString("judul"),
+                                            chordObject.getString("penyanyi"),
+                                            chordObject.getString("level"),
+                                            chordObject.getString("genre"),
+                                            chordObject.getString("durasi_menit"),
+                                            chordObject.getString("durasi_detik"),
+                                            chordObject.getString("chord_dan_lirik")
+                                    );
+                                }
+                                DBAdapter adapter = new DBAdapter(MainActivity.this, dbHelper.getChord());
+                                listChord.setAdapter(adapter);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // Display the first 500 characters of the response string.
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this,"No Connection",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 
 //    private void searchRecords(String query){
