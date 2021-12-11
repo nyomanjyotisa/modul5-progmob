@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,20 +18,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.praktikum.helper.DBHelper;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class TambahChordActivity extends AppCompatActivity {
     EditText nama,penyanyi, chordl;
@@ -40,6 +30,7 @@ public class TambahChordActivity extends AppCompatActivity {
     SeekBar menit,detik;
     TextView textmenit,textdetik;
     CheckBox cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8;
+    private ArrayList<String> cbs;
 
     private String id, judul_lagu,nama_penyanyi,  level_lagu, menit_lagu, detik_lagu, chord_lagu, genre_lagu;
     private boolean isEditMode = false;
@@ -90,7 +81,7 @@ public class TambahChordActivity extends AppCompatActivity {
             level_lagu = intent.getStringExtra("level");
             detik_lagu = intent.getStringExtra("detik");
             menit_lagu = intent.getStringExtra("menit");
-            chord_lagu = intent.getStringExtra("chordlagu");
+            chord_lagu = intent.getStringExtra("chord_lirik");
             genre_lagu = intent.getStringExtra("genre");
 
             //set data ke view
@@ -113,6 +104,7 @@ public class TambahChordActivity extends AppCompatActivity {
                 susah.setChecked(false);
             }
 
+            getCheckBoxes();
         }
         else {
 
@@ -292,8 +284,6 @@ public class TambahChordActivity extends AppCompatActivity {
             genre_lagu += "-Blues ";
         }
 
-
-
         if (isEditMode){ //update data
             dbHelper.update(""+id,
                     ""+judul_lagu,
@@ -310,10 +300,6 @@ public class TambahChordActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else { //insert data baru ke tabel
-
-            //penempatan sementara
-            insertToWebServer();
-
             dbHelper.insert(
                     ""+judul_lagu,
                     ""+nama_penyanyi,
@@ -332,49 +318,40 @@ public class TambahChordActivity extends AppCompatActivity {
         }
     }
 
-    private void insertToWebServer(){
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url =Constant.ADD_CHORD;
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        try {
-                            JSONObject object = new JSONObject(response);
-                            if(object.getBoolean("success")){
-                                Intent intent = new Intent(TambahChordActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                Toast.makeText(getApplicationContext(), "Add Data Success", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(TambahChordActivity.this,"No Connection",Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("judul",judul_lagu);
-                map.put("penyanyi", nama_penyanyi);
-                map.put("level",level_lagu);
-                map.put("genre", genre_lagu);
-                map.put("durasi_menit", menit_lagu);
-                map.put("durasi_detik", detik_lagu);
-                map.put("chord_dan_lirik", chord_lagu);
-                return map;
-            }
-        };
-
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+    public void getCheckBoxes(){
+        cbs = new ArrayList<>();
+        String[] benefit = genre_lagu.split("-");
+        if(benefit.length > 1){
+            cb1.setChecked(true);
+            cbs.add(cb1.getText().toString());
+        }
+        if(benefit.length > 2){
+            cb2.setChecked(true);
+            cbs.add(cb2.getText().toString());
+        }
+        if(benefit.length > 3){
+            cb3.setChecked(true);
+            cbs.add(cb3.getText().toString());
+        }
+        if(benefit.length > 4){
+            cb4.setChecked(true);
+            cbs.add(cb4.getText().toString());
+        }
+        if(benefit.length > 5){
+            cb5.setChecked(true);
+            cbs.add(cb5.getText().toString());
+        }
+        if(benefit.length > 6){
+            cb6.setChecked(true);
+            cbs.add(cb6.getText().toString());
+        }
+        if(benefit.length > 7){
+            cb7.setChecked(true);
+            cbs.add(cb7.getText().toString());
+        }
+        if(benefit.length > 8){
+            cb8.setChecked(true);
+            cbs.add(cb8.getText().toString());
+        }
     }
 }
