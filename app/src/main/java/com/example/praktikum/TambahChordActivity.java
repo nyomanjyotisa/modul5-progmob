@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.praktikum.helper.DBHelper;
 
+import java.util.ArrayList;
+
 public class TambahChordActivity extends AppCompatActivity {
     EditText nama,penyanyi, chordl;
     Button btnSubmit;
@@ -27,6 +30,7 @@ public class TambahChordActivity extends AppCompatActivity {
     SeekBar menit,detik;
     TextView textmenit,textdetik;
     CheckBox cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8;
+    private ArrayList<String> cbs;
 
     private String id, judul_lagu,nama_penyanyi,  level_lagu, menit_lagu, detik_lagu, chord_lagu, genre_lagu;
     private boolean isEditMode = false;
@@ -77,7 +81,7 @@ public class TambahChordActivity extends AppCompatActivity {
             level_lagu = intent.getStringExtra("level");
             detik_lagu = intent.getStringExtra("detik");
             menit_lagu = intent.getStringExtra("menit");
-            chord_lagu = intent.getStringExtra("chordlagu");
+            chord_lagu = intent.getStringExtra("chord_lirik");
             genre_lagu = intent.getStringExtra("genre");
 
             //set data ke view
@@ -100,6 +104,7 @@ public class TambahChordActivity extends AppCompatActivity {
                 susah.setChecked(false);
             }
 
+            getCheckBoxes();
         }
         else {
 
@@ -310,6 +315,43 @@ public class TambahChordActivity extends AppCompatActivity {
 //            intent.putExtra("chord", (Parcelable) chord);
 
             startActivity(intent);
+        }
+    }
+
+    public void getCheckBoxes(){
+        cbs = new ArrayList<>();
+        String[] benefit = genre_lagu.split("-");
+        if(benefit.length > 1){
+            cb1.setChecked(true);
+            cbs.add(cb1.getText().toString());
+        }
+        if(benefit.length > 2){
+            cb2.setChecked(true);
+            cbs.add(cb2.getText().toString());
+        }
+        if(benefit.length > 3){
+            cb3.setChecked(true);
+            cbs.add(cb3.getText().toString());
+        }
+        if(benefit.length > 4){
+            cb4.setChecked(true);
+            cbs.add(cb4.getText().toString());
+        }
+        if(benefit.length > 5){
+            cb5.setChecked(true);
+            cbs.add(cb5.getText().toString());
+        }
+        if(benefit.length > 6){
+            cb6.setChecked(true);
+            cbs.add(cb6.getText().toString());
+        }
+        if(benefit.length > 7){
+            cb7.setChecked(true);
+            cbs.add(cb7.getText().toString());
+        }
+        if(benefit.length > 8){
+            cb8.setChecked(true);
+            cbs.add(cb8.getText().toString());
         }
     }
 }
