@@ -36,12 +36,21 @@
                 android:id="@+id/textJudulLagu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
                 android:layout_marginTop="30dp"
+                android:layout_gravity="center"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Judul Lagu"
                 android:textColor="@color/colorBlack"
                 android:textSize="28sp" />
+            <TextView
+                android:id="@+id/textPenyanyi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins_semibold"
+                android:textColor="@color/colorOrange"
+                android:textSize="20sp" />
 
             <View
                 android:layout_width="350dip"
@@ -68,35 +77,9 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Nama Penyanyi:"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/textPenyanyi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:fontFamily="@font/poppins_regular"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="left"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_semibold"
-                    android:text="Kesulitan Chord :"
+                    android:text="Kesulitan :"
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp" />
 

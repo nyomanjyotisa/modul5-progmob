@@ -26,6 +26,14 @@
                 android:fontFamily="@font/poppins_bold"
                 android:text="Judul Lagu"
                 android:textColor="@color/black"
+                android:textSize="22sp" />
+            <TextView
+                android:id="@+id/text_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Artist"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -61,14 +69,24 @@
                     android:textColor="@color/grey"
                     android:textSize="16sp" />
             </LinearLayout>
-            <TextView
-                android:id="@+id/text_genre"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Genre"
-                android:textColor="@color/grey"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppins_regular"/>
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_level"/>
+                <TextView
+                    android:id="@+id/text_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Level"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <ImageButton

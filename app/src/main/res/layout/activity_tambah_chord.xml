@@ -463,8 +463,8 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="20dp"/>
         <RelativeLayout
-            android:layout_width="330dp"
-            android:layout_height="wrap_content"
+            android:layout_width="350dp"
+            android:layout_height="300dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/form_bg2"
             android:layout_gravity="center">
@@ -472,7 +472,7 @@
             <EditText
                 android:id="@+id/editTextchordlagu"
                 android:layout_width="300dp"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="14dp"
                 android:background="@android:color/transparent"
@@ -503,7 +503,7 @@ terbang kenanganku jauh
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
-            android:background="@drawable/btn">
+            android:background="@drawable/btn_round">
         </Button>
         <ImageView
             android:layout_width="match_parent"

@@ -15,7 +15,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorYellow">#FFFF00</color>
+    <color name="colorOrange">#FFC107</color>
     <color name="colorFuchsia">#FF00FF</color>
     <color name="colorRed">#FF0000</color>
     <color name="colorSilver">#C0C0C0</color>

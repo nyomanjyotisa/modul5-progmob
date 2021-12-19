@@ -52,14 +52,15 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textJudulLagu, textGenreLagu, textLamaMenit, textLamaDetik;
+        TextView textJudulLagu, textLevelLagu, textLamaMenit, textLamaDetik, textArtist;
         ImageButton moreBtn;
 
         public ViewHolder(@NonNull View view) {
             super(view);
 
             textJudulLagu = view.findViewById(R.id.text_judul_lagu);
-            textGenreLagu = view.findViewById(R.id.text_genre);
+            textLevelLagu = view.findViewById(R.id.text_level);
+            textArtist = view.findViewById(R.id.text_artist);
             textLamaMenit = view.findViewById(R.id.text_lama_menit);
             textLamaDetik = view.findViewById(R.id.text_detik);
             moreBtn = view.findViewById(R.id.moreBtn);
@@ -91,7 +92,8 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
 
         //set data ke views
         holder.textJudulLagu.setText(judul);
-        holder.textGenreLagu.setText(genre);
+        holder.textLevelLagu.setText(level);
+        holder.textArtist.setText(penyanyi);
         holder.textLamaMenit.setText(lamaMenit);
         holder.textLamaDetik.setText(lamaDetik);
 
