@@ -21,6 +21,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
@@ -44,6 +45,7 @@ import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity{
     private Button btnTambah;
+    private LinearLayout profile;
     private RecyclerView listChord;
 
     private DBHelper dbHelper;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity{
 
         btnTambah = findViewById(R.id.btnTambah);
         listChord = findViewById(R.id.list_chord);
+        profile = findViewById(R.id.profile);
 
         dbHelper = new DBHelper(this);
 
@@ -69,6 +72,14 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                intent.putExtra("isEditMode", false);
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadRecords() {
@@ -77,8 +88,7 @@ public class MainActivity extends AppCompatActivity{
         String url = Constant.CHORDS;
 
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {

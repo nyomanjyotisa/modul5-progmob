@@ -11,14 +11,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_toStartOf="@+id/moreBtn"
-            android:layout_toLeftOf="@+id/moreBtn"
             android:layout_marginStart="10dp"
-            android:layout_alignParentBottom="true">
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/text_judul_lagu"
                 android:layout_width="wrap_content"
@@ -27,6 +26,7 @@
                 android:text="Judul Lagu"
                 android:textColor="@color/black"
                 android:textSize="22sp" />
+
             <TextView
                 android:id="@+id/text_artist"
                 android:layout_width="wrap_content"
@@ -35,14 +35,16 @@
                 android:text="Artist"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_waktu"/>
+                    android:src="@drawable/ic_waktu" />
 
                 <TextView
                     android:id="@+id/text_lama_menit"
@@ -53,6 +55,7 @@
                     android:text="Menit"
                     android:textColor="@color/grey"
                     android:textSize="16sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,6 +63,7 @@
                     android:text=":"
                     android:textColor="@color/grey"
                     android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/text_detik"
                     android:layout_width="wrap_content"
@@ -69,14 +73,17 @@
                     android:textColor="@color/grey"
                     android:textSize="16sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_level"/>
+                    android:src="@drawable/ic_level" />
+
                 <TextView
                     android:id="@+id/text_level"
                     android:layout_width="wrap_content"

@@ -25,7 +25,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.praktikum.Chord;
 import com.example.praktikum.Constant;
+import com.example.praktikum.DashboardActivity;
 import com.example.praktikum.DetailChordActivity;
+import com.example.praktikum.EditChordActivity;
 import com.example.praktikum.MainActivity;
 import com.example.praktikum.R;
 import com.example.praktikum.TambahChordActivity;
@@ -144,7 +146,7 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
                 //tombol edit diklik
                 if (which==0){
                     //tombol edit diklik
-                    Intent intent = new Intent(context, TambahChordActivity.class);
+                    Intent intent = new Intent(context, EditChordActivity.class);
                     intent.putExtra("id", id);
                     intent.putExtra("judul", judul);
                     intent.putExtra("penyanyi", penyanyi);
@@ -153,14 +155,13 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
                     intent.putExtra("durasi_menit", lamaMenit);
                     intent.putExtra("durasi_detik", lamaDetik);
                     intent.putExtra("chord_lirik", chordLirik);
-                    intent.putExtra("isEditMode", true);
                     context.startActivity(intent);
                 }
                 //tombol delete diklik
                 else if (which==1){
                     databaseHelper.delete(id);
                     deleteOnWebServer(id);
-                    ((MainActivity)context).onResume();
+                    ((DashboardActivity)context).onResume();
                 }
             }
         });

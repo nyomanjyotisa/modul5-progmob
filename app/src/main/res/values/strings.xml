@@ -8,4 +8,9 @@
     <string name="hint">Manny, Moe and Jack\nThey know what I\'m after.</string>
     <string name="hintTahap">1. Rebus ayam pada air panas\n2. Masukan sayur-sayuran ke panci\n3. dll</string>
     <string name="hintBahan">1. 100g ayam cincang\n2. 2 buah wortel\n3. dll</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
 </resources>

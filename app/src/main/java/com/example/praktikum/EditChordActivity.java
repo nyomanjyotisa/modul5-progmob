@@ -1,10 +1,8 @@
 package com.example.praktikum;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,6 +13,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,14 +26,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.praktikum.helper.DBHelper;
 
-import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TambahChordActivity extends AppCompatActivity {
+public class EditChordActivity extends AppCompatActivity {
     EditText nama,penyanyi, chordl;
     Button btnSubmit;
     RadioGroup level;
@@ -47,13 +46,12 @@ public class TambahChordActivity extends AppCompatActivity {
     private String id, judul_lagu,nama_penyanyi,  level_lagu, menit_lagu, detik_lagu, chord_lagu, genre_lagu;
     private boolean isEditMode = false;
 
-    private DBHelper dbHelper = new DBHelper(this);
+    private DBHelper dbHelper;
 
-    @SuppressLint("SetTextI18n")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tambah_chord);
+        setContentView(R.layout.activity_edit_chord);
 
         btnSubmit = findViewById(R.id.buttonSubmit);
 
@@ -80,47 +78,38 @@ public class TambahChordActivity extends AppCompatActivity {
         sedang = findViewById(R.id.radioButtonSedang);
         susah = findViewById(R.id.radioButtonSusah);
 
-//        //get data dari intent
-//        Intent intent = getIntent();
-//        isEditMode = intent.getBooleanExtra("isEditMode", false);
-//        if (isEditMode){
-//            //update data
-//
-//            //get data
-//            id = intent.getStringExtra("id");
-//            judul_lagu = intent.getStringExtra("judul");
-//            nama_penyanyi = intent.getStringExtra("penyanyi");
-//            level_lagu = intent.getStringExtra("level");
-//            detik_lagu = intent.getStringExtra("detik");
-//            menit_lagu = intent.getStringExtra("menit");
-//            chord_lagu = intent.getStringExtra("chord_lirik");
-//            genre_lagu = intent.getStringExtra("genre");
-//
-//            //set data ke view
-//            nama.setText(judul_lagu);
-//            penyanyi.setText(nama_penyanyi);
-//            chordl.setText(chord_lagu);
-//            textmenit.setText(menit_lagu);
-//            textdetik.setText(detik_lagu);
-//
-//            //set radio button checked sesuai value dari resep
-//            if ("Mudah".equals(level_lagu)){
-//                mudah.setChecked(true);
-//            }else if ("Sedang".equals(level_lagu)){
-//                sedang.setChecked(true);
-//            }else if ("Sudah".equals(level_lagu)){
-//                susah.setChecked(true);
-//            }else {
-//                mudah.setChecked(false);
-//                sedang.setChecked(false);
-//                susah.setChecked(false);
-//            }
-//
-//            getCheckBoxes();
-//        }
-//        else {
-//
-//        }
+        //get data dari intent
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+        judul_lagu = intent.getStringExtra("judul");
+        nama_penyanyi = intent.getStringExtra("penyanyi");
+        level_lagu = intent.getStringExtra("level");
+        detik_lagu = intent.getStringExtra("detik");
+        menit_lagu = intent.getStringExtra("menit");
+        chord_lagu = intent.getStringExtra("chord_lirik");
+        genre_lagu = intent.getStringExtra("genre");
+
+        //set data ke view
+        nama.setText(judul_lagu);
+        penyanyi.setText(nama_penyanyi);
+        chordl.setText(chord_lagu);
+        textmenit.setText(menit_lagu);
+        textdetik.setText(detik_lagu);
+
+        //set radio button checked sesuai value dari resep
+        if ("Mudah".equals(level_lagu)){
+            mudah.setChecked(true);
+        }else if ("Sedang".equals(level_lagu)){
+            sedang.setChecked(true);
+        }else if ("Sudah".equals(level_lagu)){
+            susah.setChecked(true);
+        }else {
+            mudah.setChecked(false);
+            sedang.setChecked(false);
+            susah.setChecked(false);
+        }
+
+        getCheckBoxes();
 
         dbHelper = new DBHelper(this);
 
@@ -184,7 +173,7 @@ public class TambahChordActivity extends AppCompatActivity {
             return false;
         }
         else if (!mudah.isChecked() && !sedang.isChecked() && !susah.isChecked()){
-            Toast.makeText(TambahChordActivity.this,"Pilih salah satu tingkat kesulitan Lagu!", Toast.LENGTH_LONG).show();
+            Toast.makeText(EditChordActivity.this,"Pilih salah satu tingkat kesulitan Lagu!", Toast.LENGTH_LONG).show();
             return false;
         }
         else if (chordl.getText().toString().length() == 0){
@@ -193,7 +182,7 @@ public class TambahChordActivity extends AppCompatActivity {
             return false;
         }
         else if (!cb1.isChecked() && !cb2.isChecked() && !cb3.isChecked() && !cb4.isChecked() && !cb5.isChecked() && !cb6.isChecked() && !cb7.isChecked() && !cb8.isChecked()){
-            Toast.makeText(TambahChordActivity.this,"Pilih salah satu genre lagu!", Toast.LENGTH_LONG).show();
+            Toast.makeText(EditChordActivity.this,"Pilih salah satu genre lagu!", Toast.LENGTH_LONG).show();
             return false;
         }
         else {
@@ -240,7 +229,7 @@ public class TambahChordActivity extends AppCompatActivity {
             genre_lagu += "\n-Blues";
         }
 
-        AlertDialog.Builder alertdialog=new AlertDialog.Builder(TambahChordActivity.this);
+        AlertDialog.Builder alertdialog=new AlertDialog.Builder(EditChordActivity.this);
         alertdialog.setTitle("Apakah input anda sudah benar?");
         alertdialog.setMessage("Judul Lagu : "+judul_lagu+'\n'+'\n'+"Artist : "+nama_penyanyi+'\n'+'\n'+"Tingkat Kesulitan : "+level_lagu+'\n'+'\n'+"Chord Dan lirik : "+'\n'+chord_lagu+'\n'+'\n'+"Durasi : "+'\n'+menit_lagu+'\n'+'\n'+":"+detik_lagu+'\n'+'\n'+"Genre : "+genre_lagu);
         alertdialog.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
@@ -295,49 +284,26 @@ public class TambahChordActivity extends AppCompatActivity {
         if(cb8.isChecked()) {
             genre_lagu += "-Blues ";
         }
-//
-//
-//
-//        if (isEditMode){ //update data
-//
-//            //penempatan sementara
-//            updateToWebServe();
-//
-//            dbHelper.update(""+id,
-//                    ""+judul_lagu,
-//                    ""+nama_penyanyi,
-//                    ""+genre_lagu,
-//                    ""+level_lagu,
-//                    ""+menit_lagu,
-//                    ""+detik_lagu,
-//                    ""+chord_lagu
-//            );
-//            Toast.makeText(this,"Data berhasil diupdate", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(this, DetailChordActivity.class);
-//            intent.putExtra("id_chord", id);
-//            startActivity(intent);
-//        }
-//        else { //insert data baru ke tabel
 
-            //penempatan sementara
-            insertToWebServer();
+        //update data
 
-            dbHelper.insert(
-                    ""+judul_lagu,
-                    ""+nama_penyanyi,
-                    ""+genre_lagu,
-                    ""+level_lagu,
-                    ""+menit_lagu,
-                    ""+detik_lagu,
-                    ""+chord_lagu
-            );
-            Toast.makeText(this,"Data berhasil ditambahkan", Toast.LENGTH_SHORT).show();
-//            Chord chord = new Chord(id, judul_lagu, nama_penyanyi, genre_lagu, level_lagu, menit_lagu, detik_lagu, chord_lagu);
-            Intent intent = new Intent(this,MainActivity.class);
-//            intent.putExtra("chord", (Parcelable) chord);
+        //penempatan sementara
+        updateToWebServe();
 
-            startActivity(intent);
-//        }
+        dbHelper.update(""+id,
+                ""+judul_lagu,
+                ""+nama_penyanyi,
+                ""+genre_lagu,
+                ""+level_lagu,
+                ""+menit_lagu,
+                ""+detik_lagu,
+                ""+chord_lagu
+        );
+        Toast.makeText(this,"Data berhasil diupdate", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, DetailChordActivity.class);
+        intent.putExtra("id_chord", id);
+        startActivity(intent);
+
     }
 
     public void getCheckBoxes(){
@@ -377,10 +343,10 @@ public class TambahChordActivity extends AppCompatActivity {
         }
     }
 
-    private void insertToWebServer(){
+    public void updateToWebServe(){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url =Constant.ADD_CHORD;
+        String url =Constant.UPDATE_CHORD;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -391,9 +357,9 @@ public class TambahChordActivity extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(response);
                             if(object.getBoolean("success")){
-                                Intent intent = new Intent(TambahChordActivity.this, MainActivity.class);
+                                Intent intent = new Intent(EditChordActivity.this, DetailChordActivity.class);
                                 startActivity(intent);
-                                Toast.makeText(getApplicationContext(), "Add Data Success", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Update Data Success", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -402,12 +368,13 @@ public class TambahChordActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(TambahChordActivity.this,"Add Gagal",Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditChordActivity.this,"Update Gagal",Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
+                map.put("id",id);
                 map.put("judul",judul_lagu);
                 map.put("penyanyi", nama_penyanyi);
                 map.put("level",level_lagu);
@@ -422,51 +389,4 @@ public class TambahChordActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
-//
-//    public void updateToWebServe(){
-//        // Instantiate the RequestQueue.
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url =Constant.UPDATE_CHORD;
-//
-//        // Request a string response from the provided URL.
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        // Display the first 500 characters of the response string.
-//                        try {
-//                            JSONObject object = new JSONObject(response);
-//                            if(object.getBoolean("success")){
-//                                Intent intent = new Intent(TambahChordActivity.this, MainActivity.class);
-//                                startActivity(intent);
-//                                Toast.makeText(getApplicationContext(), "Update Data Success", Toast.LENGTH_SHORT).show();
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(TambahChordActivity.this,"Update Gagal",Toast.LENGTH_SHORT).show();
-//            }
-//        }){
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                HashMap<String, String> map = new HashMap<>();
-//                map.put("id",id);
-//                map.put("judul",judul_lagu);
-//                map.put("penyanyi", nama_penyanyi);
-//                map.put("level",level_lagu);
-//                map.put("genre", genre_lagu);
-//                map.put("durasi_menit", menit_lagu);
-//                map.put("durasi_detik", detik_lagu);
-//                map.put("chord_dan_lirik", chord_lagu);
-//                return map;
-//            }
-//        };
-//
-//        // Add the request to the RequestQueue.
-//        queue.add(stringRequest);
-//    }
 }
