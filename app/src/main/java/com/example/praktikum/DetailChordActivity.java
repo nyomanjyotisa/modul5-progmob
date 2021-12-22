@@ -1,6 +1,7 @@
 package com.example.praktikum;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,17 +10,46 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.praktikum.adapter.CommentAdapter;
+import com.example.praktikum.adapter.DBAdapter;
 import com.example.praktikum.helper.DBHelper;
+import com.example.praktikum.model.CommentModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class DetailChordActivity extends AppCompatActivity {
-    private TextView judulText, penyanyiText, chordLaguText, levelText, durasimenitText, durasidetikText, genreText;
+    private TextView judulText, penyanyiText, chordLaguText, levelText, durasimenitText, durasidetikText;
 //    private ImageView foto_resep;
-    private String idChord;
+    private String idChord, genre;
     private DBHelper dbHelper;
     private FloatingActionButton btnBack, btnMore;
+    private TextView genre1, genre2, genre3, genre4, genre5, genre6, genre7, genre8;
+    private ArrayList<CommentModel> commentArrayList  = new ArrayList<>();
+    private RecyclerView listComment;
+    private CommentModel commentModel;
+    private SeekBar seekRating;
+    private EditText etComment;
+    private Button submitComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +64,6 @@ public class DetailChordActivity extends AppCompatActivity {
         levelText = findViewById(R.id.textLevel);
         durasimenitText = findViewById(R.id.textMenit);
         durasidetikText = findViewById(R.id.textDetik);
-        genreText = findViewById(R.id.textGenre);
 
         btnBack = findViewById(R.id.btn_Back);
         btnMore = findViewById(R.id.btn_More);
@@ -46,6 +75,20 @@ public class DetailChordActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
 
         showDetailChord();
+
+        seekRating = findViewById(R.id.SeekBarRating);
+        etComment = findViewById(R.id.editTextComment);
+        submitComment = findViewById(R.id.buttonSubmit);
+
+        submitComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                storeComment();
+            }
+        });
+
+        listComment = findViewById(R.id.list_comment);
+        loadComments();
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +126,7 @@ public class DetailChordActivity extends AppCompatActivity {
                 String id = ""+ cursor.getInt(cursor.getColumnIndex("id"));
                 String judul = ""+ cursor.getString(cursor.getColumnIndex("judul"));
                 String penyanyi = ""+ cursor.getString(cursor.getColumnIndex("penyanyi"));
-                String genre = ""+ cursor.getString(cursor.getColumnIndex("genre"));
+                genre = ""+ cursor.getString(cursor.getColumnIndex("genre"));
                 String level = ""+ cursor.getString(cursor.getColumnIndex("level"));
                 String durasimenit = ""+ cursor.getString(cursor.getColumnIndex("durasi_menit"));
                 String durasidetik = ""+ cursor.getString(cursor.getColumnIndex("durasi_detik"));
@@ -95,7 +138,7 @@ public class DetailChordActivity extends AppCompatActivity {
                 levelText.setText(level);
                 durasimenitText.setText(durasimenit);
                 durasidetikText.setText(durasidetik);
-                genreText.setText(genre);
+                genreSetter();
 
                 btnMore.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -148,5 +191,151 @@ public class DetailChordActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    public void genreSetter() {
+        genre1 = findViewById(R.id.textGenre1);
+        genre2 = findViewById(R.id.textGenre2);
+        genre3 = findViewById(R.id.textGenre3);
+        genre4 = findViewById(R.id.textGenre4);
+        genre5 = findViewById(R.id.textGenre5);
+        genre6 = findViewById(R.id.textGenre6);
+        genre7 = findViewById(R.id.textGenre7);
+        genre8 = findViewById(R.id.textGenre8);
+
+        String[] benefit = genre.split("-");
+
+        if(benefit.length > 1){
+            genre1.setVisibility(View.VISIBLE);
+            genre1.setText(benefit[1]);
+        }
+        if(benefit.length > 2){
+            genre2.setVisibility(View.VISIBLE);
+            genre2.setText(benefit[2]);
+        }
+        if(benefit.length > 3){
+            genre3.setVisibility(View.VISIBLE);
+            genre3.setText(benefit[3]);
+        }
+        if(benefit.length > 4){
+            genre4.setVisibility(View.VISIBLE);
+            genre4.setText(benefit[4]);
+        }
+        if(benefit.length > 5){
+            genre5.setVisibility(View.VISIBLE);
+            genre5.setText(benefit[5]);
+        }
+        if(benefit.length > 6){
+            genre6.setVisibility(View.VISIBLE);
+            genre6.setText(benefit[6]);
+        }
+        if(benefit.length > 7){
+            genre7.setVisibility(View.VISIBLE);
+            genre7.setText(benefit[7]);
+        }
+        if(benefit.length > 8){
+            genre8.setVisibility(View.VISIBLE);
+            genre8.setText(benefit[8]);
+        }
+    }
+
+    private void loadComments() {
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constant.COMMENTS;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.getBoolean("success")){
+                                dbHelper.deleteSemua();
+                                JSONArray array = new JSONArray(object.getString("data"));
+                                for(int i=0;i<array.length();i++){
+                                    JSONObject chordObject = array.getJSONObject(i);
+                                    commentModel = new CommentModel(chordObject.getInt("id"),
+                                            chordObject.getInt("id_user"),
+                                            chordObject.getInt("id_chord"),
+                                            chordObject.getInt("rating"),
+                                            chordObject.getString("comment"),
+                                            chordObject.getString("username"));
+
+                                    commentArrayList.add(commentModel);
+                                }
+                                CommentAdapter adapter = new CommentAdapter(DetailChordActivity.this, commentArrayList);
+                                listComment.setAdapter(adapter);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // Display the first 500 characters of the response string.
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(DetailChordActivity.this,"No Connection",Toast.LENGTH_SHORT).show();
+            }
+
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("id_chord",idChord);
+                return map;
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+    public void storeComment(){
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = Constant.ADD_COMMENT;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.getBoolean("success")){
+                                Intent intent = getIntent();
+                                finish();
+                                startActivity(intent);
+                                Toast.makeText(DetailChordActivity.this,"Add comment success",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // Display the first 500 characters of the response string.
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(DetailChordActivity.this,"No Connection",Toast.LENGTH_SHORT).show();
+            }
+
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("id_user", String.valueOf(1));
+                map.put("id_chord", idChord);
+                map.put("rating", String.valueOf(seekRating.getProgress()));
+                map.put("comment", etComment.getText().toString());
+                return map;
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 }
