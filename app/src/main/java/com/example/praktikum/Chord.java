@@ -3,14 +3,20 @@ package com.example.praktikum;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Chord implements Parcelable {
     String id;
+    String id_user;
     String judul;
     String penyanyi;
     String genre;
     String level;
+    @SerializedName("durasi_menit")
     String durasiMenit;
+    @SerializedName("durasi_detik")
     String durasiDetik;
+    @SerializedName("chord_dan_lirik")
     String chordLirik;
 
 

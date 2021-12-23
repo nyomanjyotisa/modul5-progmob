@@ -25,11 +25,42 @@
         android:layout_gravity="center">
 
         <EditText
-            android:id="@+id/textEmailSignUp"
+            android:id="@+id/textUsernameSignUp"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:layout_toRightOf="@+id/user_ic"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/poppins_regular"
+            android:hint="Username"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/grey"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/user_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="4dp"
+            android:padding="10dp"
+            android:src="@drawable/user" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/form_bg"
+        android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/textEmailSignUp"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_toRightOf="@+id/email_ic"
             android:background="@android:color/transparent"
             android:fontFamily="@font/poppins_regular"
             android:hint="Email"
@@ -40,7 +71,7 @@
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/user_ic"
+            android:id="@+id/email_ic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -80,44 +111,12 @@
         </ImageView>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/form_bg"
-        android:layout_gravity="center">
-
-        <EditText
-            android:id="@+id/txtConfirmPasswordSignUp"
-            android:layout_width="230dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:layout_toRightOf="@+id/key_ic_confirm"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/poppins_regular"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:textColor="@color/colorBlack"
-            android:textColorHint="@color/grey"
-            android:textSize="16sp" />
-        <ImageView
-            android:id="@+id/key_ic_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/key"
-            android:padding="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp">
-        </ImageView>
-    </RelativeLayout>
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Sign Up"
-        android:id="@+id/btnSignIn"
+        android:id="@+id/btnSignUp"
         android:background="@drawable/btn_round"
         android:textColor="@color/white"
         android:textSize="17dp"

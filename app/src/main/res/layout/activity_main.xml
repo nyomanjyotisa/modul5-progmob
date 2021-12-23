@@ -80,7 +80,7 @@
             android:layout_gravity="center">
 
             <EditText
-                android:id="@+id/textEmailSignUp"
+                android:id="@+id/editTextSearch"
                 android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"

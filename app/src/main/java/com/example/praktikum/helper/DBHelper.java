@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
-    static final String DATABASE_NAME = "chord";
+    private static final int DATABASE_VERSION = 6;
+    static final String DATABASE_NAME = "chord_lagu.db";
 
     public DBHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        final String SQL_CREATE_TB = "CREATE TABLE chord (id INTEGER PRIMARY KEY autoincrement," +
+        final String SQL_CREATE_TB_CHORD = "CREATE TABLE chord (id INTEGER PRIMARY KEY autoincrement," +
                 "judul TEXT NOT NULL," +
                 "penyanyi TEXT NOT NULL," +
                 "genre TEXT NOT NULL," +
@@ -29,13 +29,37 @@ public class DBHelper extends SQLiteOpenHelper {
                 "durasi_menit TEXT NOT NULL," +
                 "durasi_detik TEXT NOT NULL," +
                 "chord_lirik TEXT NOT NULL)";
-        db.execSQL(SQL_CREATE_TB);
+        final String SQL_CREATE_TB_USER = "CREATE TABLE users (id INTEGER PRIMARY KEY autoincrement," +
+                "name TEXT NOT NULL," +
+                "email_verified_At TEXT NOT NULL," +
+                "email TEXT NOT NULL," +
+                "password TEXT NOT NULL," +
+                "remember_token TEXT NOT NULL," +
+                "created_At TEXT NOT NULL," +
+                "updated_at TEXT NOT NULL)";
+        final String SQL_CREATE_TB_FAVORITES = "CREATE TABLE favorites (id INTEGER PRIMARY KEY autoincrement," +
+                "id_chord INTEGER NOT NULL," +
+                "id_user INTEGER NOT NULL)";
+        final String SQL_CREATE_TB_COMMENTS = "CREATE TABLE comments (id INTEGER PRIMARY KEY autoincrement," +
+                "id_chord INTEGER NOT NULL," +
+                "id_user INTEGER NOT NULL," +
+                "rating TEXT NOT NULL," +
+                "comment TEXT NOT NULL," +
+                "created_At TEXT NOT NULL," +
+                "updated_at TEXT NOT NULL)";
+
+        db.execSQL(SQL_CREATE_TB_CHORD);
+        db.execSQL(SQL_CREATE_TB_USER);
+        db.execSQL(SQL_CREATE_TB_FAVORITES);
+        db.execSQL(SQL_CREATE_TB_COMMENTS);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS chord");
-        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS users");
+        db.execSQL("DROP TABLE IF EXISTS favorites");
+        db.execSQL("DROP TABLE IF EXISTS comments");
     }
 
     // mengambil semua data chord

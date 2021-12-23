@@ -357,7 +357,7 @@ public class EditChordActivity extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(response);
                             if(object.getBoolean("success")){
-                                Intent intent = new Intent(EditChordActivity.this, DetailChordActivity.class);
+                                Intent intent = new Intent(EditChordActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 Toast.makeText(getApplicationContext(), "Update Data Success", Toast.LENGTH_SHORT).show();
                             }

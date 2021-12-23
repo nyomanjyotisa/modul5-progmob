@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +24,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.praktikum.Chord;
 import com.example.praktikum.Constant;
-import com.example.praktikum.DashboardActivity;
 import com.example.praktikum.DetailChordActivity;
 import com.example.praktikum.EditChordActivity;
 import com.example.praktikum.MainActivity;
 import com.example.praktikum.R;
-import com.example.praktikum.TambahChordActivity;
 import com.example.praktikum.helper.DBHelper;
 
 import org.json.JSONException;
@@ -161,7 +158,7 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
                 else if (which==1){
                     databaseHelper.delete(id);
                     deleteOnWebServer(id);
-                    ((DashboardActivity)context).onResume();
+                    ((MainActivity)context).onResume();
                 }
             }
         });
