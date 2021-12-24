@@ -288,7 +288,7 @@ public class EditChordActivity extends AppCompatActivity {
         //update data
 
         //penempatan sementara
-        updateToWebServe();
+//        updateToWebServe();
 
         dbHelper.update(""+id,
                 ""+judul_lagu,
@@ -300,7 +300,7 @@ public class EditChordActivity extends AppCompatActivity {
                 ""+chord_lagu
         );
         Toast.makeText(this,"Data berhasil diupdate", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, DetailChordActivity.class);
+        Intent intent = new Intent(this, MyChordActivity.class);
         intent.putExtra("id_chord", id);
         startActivity(intent);
 

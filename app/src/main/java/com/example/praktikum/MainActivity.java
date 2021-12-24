@@ -39,6 +39,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.praktikum.adapter.ChordAdapter;
 import com.example.praktikum.adapter.DBAdapter;
 import com.example.praktikum.api.ChordAPIHelper;
 import com.example.praktikum.api.RetroHelper;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity{
     private String keyword="";
 
     private DBHelper dbHelper;
-    private DBAdapter dbAdapter;
+    private ChordAdapter chordAdapter;
 
     private ChordAPIHelper chordAPIHelper;
 
@@ -162,8 +163,8 @@ public class MainActivity extends AppCompatActivity{
                 chordList=response.body();
                 Log.d("panjang_data",Integer.toString(chordList.size()));
 
-                dbAdapter= new DBAdapter(getApplicationContext(),chordList);
-                listChord.setAdapter(dbAdapter);
+                chordAdapter= new ChordAdapter(getApplicationContext(),chordList);
+                listChord.setAdapter(chordAdapter);
             }
 
             @Override

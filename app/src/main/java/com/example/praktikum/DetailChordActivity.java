@@ -9,9 +9,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,16 +42,19 @@ import java.util.Map;
 public class DetailChordActivity extends AppCompatActivity {
     private TextView judulText, penyanyiText, chordLaguText, levelText, durasimenitText, durasidetikText;
 //    private ImageView foto_resep;
-    private String idChord, genre;
+    private String idChord, genre, asal;
     private DBHelper dbHelper;
     private FloatingActionButton btnBack, btnMore;
-    private TextView genre1, genre2, genre3, genre4, genre5, genre6, genre7, genre8;
+    private TextView ratingLabel, labelComments, genre1, genre2, genre3, genre4, genre5, genre6, genre7, genre8, labelAddComment;
     private ArrayList<CommentModel> commentArrayList  = new ArrayList<>();
     private RecyclerView listComment;
     private CommentModel commentModel;
     private SeekBar seekRating;
     private EditText etComment;
     private Button submitComment;
+    Intent intent;
+    Chord chord;
+    RelativeLayout editTextCommentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,32 +74,57 @@ public class DetailChordActivity extends AppCompatActivity {
         btnMore = findViewById(R.id.btn_More);
 
         // get id record dari adapter melalui intent
-        Intent intent = getIntent();
+        intent = getIntent();
         idChord = intent.getStringExtra("id_chord");
-
-        dbHelper = new DBHelper(this);
-
-        showDetailChord();
+        asal = intent.getStringExtra("asal");
+        chord = intent.getParcelableExtra("chord");
 
         seekRating = findViewById(R.id.SeekBarRating);
         etComment = findViewById(R.id.editTextComment);
         submitComment = findViewById(R.id.buttonSubmit);
-
-        submitComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                storeComment();
-            }
-        });
-
+        labelAddComment = findViewById(R.id.labelAddComment);
         listComment = findViewById(R.id.list_comment);
-        loadComments();
+        labelComments = findViewById(R.id.labelComments);
+        ratingLabel = findViewById(R.id.ratingLabel);
+        editTextCommentLayout = findViewById(R.id.editTextCommentLayout);
+
+        if(asal.equals("add")){
+            fromAdd();
+            seekRating.setVisibility(View.INVISIBLE);
+            etComment.setVisibility(View.INVISIBLE);
+            submitComment.setVisibility(View.INVISIBLE);
+            labelAddComment.setVisibility(View.INVISIBLE);
+            listComment.setVisibility(View.INVISIBLE);
+            labelComments.setVisibility(View.INVISIBLE);
+            ratingLabel.setVisibility(View.INVISIBLE);
+            editTextCommentLayout.setVisibility(View.INVISIBLE);
+        }else{
+            dbHelper = new DBHelper(this);
+
+            showDetailChord();
+
+
+            submitComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    storeComment();
+                }
+            });
+
+            loadComments();
+        }
+
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DetailChordActivity.this, MainActivity.class);
-                startActivity(intent);
+                if(asal.equals("add")){
+                    Intent intent = new Intent(DetailChordActivity.this, MyChordActivity.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(DetailChordActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -189,8 +219,13 @@ public class DetailChordActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        if(asal.equals("add")){
+            Intent intent = new Intent(this, MyChordActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void genreSetter() {
@@ -203,39 +238,45 @@ public class DetailChordActivity extends AppCompatActivity {
         genre7 = findViewById(R.id.textGenre7);
         genre8 = findViewById(R.id.textGenre8);
 
-        String[] benefit = genre.split("-");
+        String[] iniGenre;
 
-        if(benefit.length > 1){
+        if(asal.equals("add")){
+            iniGenre = chord.getGenre().split("-");
+        }else{
+            iniGenre = genre.split("-");
+        }
+
+        if(iniGenre.length > 1){
             genre1.setVisibility(View.VISIBLE);
-            genre1.setText(benefit[1]);
+            genre1.setText(iniGenre[1]);
         }
-        if(benefit.length > 2){
+        if(iniGenre.length > 2){
             genre2.setVisibility(View.VISIBLE);
-            genre2.setText(benefit[2]);
+            genre2.setText(iniGenre[2]);
         }
-        if(benefit.length > 3){
+        if(iniGenre.length > 3){
             genre3.setVisibility(View.VISIBLE);
-            genre3.setText(benefit[3]);
+            genre3.setText(iniGenre[3]);
         }
-        if(benefit.length > 4){
+        if(iniGenre.length > 4){
             genre4.setVisibility(View.VISIBLE);
-            genre4.setText(benefit[4]);
+            genre4.setText(iniGenre[4]);
         }
-        if(benefit.length > 5){
+        if(iniGenre.length > 5){
             genre5.setVisibility(View.VISIBLE);
-            genre5.setText(benefit[5]);
+            genre5.setText(iniGenre[5]);
         }
-        if(benefit.length > 6){
+        if(iniGenre.length > 6){
             genre6.setVisibility(View.VISIBLE);
-            genre6.setText(benefit[6]);
+            genre6.setText(iniGenre[6]);
         }
-        if(benefit.length > 7){
+        if(iniGenre.length > 7){
             genre7.setVisibility(View.VISIBLE);
-            genre7.setText(benefit[7]);
+            genre7.setText(iniGenre[7]);
         }
-        if(benefit.length > 8){
+        if(iniGenre.length > 8){
             genre8.setVisibility(View.VISIBLE);
-            genre8.setText(benefit[8]);
+            genre8.setText(iniGenre[8]);
         }
     }
 
@@ -252,7 +293,6 @@ public class DetailChordActivity extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(response);
                             if (object.getBoolean("success")){
-                                dbHelper.deleteSemua();
                                 JSONArray array = new JSONArray(object.getString("data"));
                                 for(int i=0;i<array.length();i++){
                                     JSONObject chordObject = array.getJSONObject(i);
@@ -337,5 +377,17 @@ public class DetailChordActivity extends AppCompatActivity {
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
+
+    private void fromAdd(){
+        Log.v("bas", chord.getJudul());
+        judulText.setText(chord.getJudul());
+        penyanyiText.setText(chord.getPenyanyi());
+        chordLaguText.setText(chord.getChordLirik());
+        levelText.setText(chord.getLevel());
+        durasimenitText.setText(chord.getDurasiMenit());
+        durasidetikText.setText(chord.getDurasiDetik());
+        genreSetter();
+
     }
 }

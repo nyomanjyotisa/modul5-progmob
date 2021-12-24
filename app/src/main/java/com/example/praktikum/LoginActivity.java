@@ -42,6 +42,9 @@ public class LoginActivity extends AppCompatActivity {
     String emailLogin;
     String passwordLogin;
 
+    SharedPreferences shp;
+    SharedPreferences.Editor shpEditor;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,9 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = (Button) findViewById(R.id.btnSignIn);
         email = (EditText) findViewById(R.id.editTextEmailSignIn);
         password = (EditText) findViewById(R.id.editTextPasswordSignIn);
+
+//        shp = getSharedPreferences("id_user", MODE_PRIVATE);
+        CheckLogin();
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +98,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(dataPenggunaList.size() > 0) {
 //                    Toast.makeText(LoginActivity.this, "" + dataPenggunaList.get(0).getId(), Toast.LENGTH_LONG).show();
+                    if (shp == null)
+                        shp = getSharedPreferences("loginPre", MODE_PRIVATE);
+                    shpEditor = shp.edit();
+                    shpEditor.putString("id_user", String.valueOf(dataPenggunaList.get(0).getId()));
+                    shpEditor.putString("username", String.valueOf(dataPenggunaList.get(0).getUsername()));
+                    shpEditor.commit();
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("id", String.valueOf(dataPenggunaList.get(0).getId()));
                     startActivity(intent);
@@ -161,4 +174,16 @@ public class LoginActivity extends AppCompatActivity {
 //
 //        requestQueue.add(jsonObjectRequest);
 //    }
+    public void CheckLogin() {
+        if (shp == null)
+            shp = getSharedPreferences("loginPre", MODE_PRIVATE);
+        String shpIdUser = shp.getString("id_user", "");
+
+        Log.v("what", shpIdUser);
+
+        if (shpIdUser != null && !shpIdUser.equals("")) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
 }

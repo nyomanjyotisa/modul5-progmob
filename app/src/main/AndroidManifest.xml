@@ -44,6 +44,9 @@
             android:name=".EditChordActivity"
             android:exported="false" />
         <activity
+            android:name=".MyChordActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false">
 

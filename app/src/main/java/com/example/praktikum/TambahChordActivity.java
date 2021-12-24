@@ -320,7 +320,7 @@ public class TambahChordActivity extends AppCompatActivity {
 //        else { //insert data baru ke tabel
 
             //penempatan sementara
-            insertToWebServer();
+//            insertToWebServer();
 
             dbHelper.insert(
                     ""+judul_lagu,
@@ -333,9 +333,13 @@ public class TambahChordActivity extends AppCompatActivity {
             );
             Toast.makeText(this,"Data berhasil ditambahkan", Toast.LENGTH_SHORT).show();
 //            Chord chord = new Chord(id, judul_lagu, nama_penyanyi, genre_lagu, level_lagu, menit_lagu, detik_lagu, chord_lagu);
-            Intent intent = new Intent(this,MainActivity.class);
-//            intent.putExtra("chord", (Parcelable) chord);
 
+            Chord chordNew = new Chord("0", judul_lagu, nama_penyanyi, genre_lagu, level_lagu,
+                    menit_lagu, detik_lagu, chord_lagu);
+
+            Intent intent = new Intent(this, DetailChordActivity.class);
+            intent.putExtra("asal", "add");
+            intent.putExtra("chord", chordNew);
             startActivity(intent);
 //        }
     }
@@ -393,7 +397,7 @@ public class TambahChordActivity extends AppCompatActivity {
                             if(object.getBoolean("success")){
                                 Intent intent = new Intent(TambahChordActivity.this, MainActivity.class);
                                 startActivity(intent);
-                                Toast.makeText(getApplicationContext(), "Add Data Success", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "Add Data Success", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

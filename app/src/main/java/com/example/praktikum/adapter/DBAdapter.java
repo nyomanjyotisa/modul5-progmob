@@ -27,6 +27,7 @@ import com.example.praktikum.Constant;
 import com.example.praktikum.DetailChordActivity;
 import com.example.praktikum.EditChordActivity;
 import com.example.praktikum.MainActivity;
+import com.example.praktikum.MyChordActivity;
 import com.example.praktikum.R;
 import com.example.praktikum.helper.DBHelper;
 
@@ -101,8 +102,11 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 //pass record id to next activity to show details of that records
+                Chord chordNew = new Chord(id, judul, penyanyi, genre, level,
+                        lamaMenit, lamaDetik, chordLirik);
                 Intent intent = new Intent(context, DetailChordActivity.class);
-                intent.putExtra("id_chord", id);
+                intent.putExtra("chord", chordNew);
+                intent.putExtra("asal", "add");
                 context.startActivity(intent);
             }
         });
@@ -157,8 +161,8 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
                 //tombol delete diklik
                 else if (which==1){
                     databaseHelper.delete(id);
-                    deleteOnWebServer(id);
-                    ((MainActivity)context).onResume();
+//                    deleteOnWebServer(id);
+                    ((MyChordActivity)context).onResume();
                 }
             }
         });

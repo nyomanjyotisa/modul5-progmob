@@ -5,8 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.praktikum.Chord;
+import com.example.praktikum.model.CommentModel;
 
 import java.util.ArrayList;
 
@@ -90,6 +92,30 @@ public class DBHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
+    public ArrayList <CommentModel> getComment() {
+        ArrayList<CommentModel> arrayList = new ArrayList<>();
+
+        // query select
+        String QUERY = "SELECT * FROM comments";
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(QUERY, null);
+
+        //looping semua baris dan menambahkan ke list
+        if (cursor.moveToFirst()){
+            do {
+                CommentModel commentModel = new CommentModel(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getInt(2),
+                        cursor.getInt(3),
+                        cursor.getString(4), "");
+                arrayList.add(commentModel);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return arrayList;
+    }
+
     // mencari data resep
     public ArrayList <Chord> searchChord(String query) {
         ArrayList<Chord> arrayList = new ArrayList<>();
@@ -120,8 +146,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //mengambil jumlah data record
     public int getRecordCount(){
-        String countQuery = "SELECT * FROM chord ";
         SQLiteDatabase db = this.getReadableDatabase();
+        String countQuery = "SELECT * FROM chord ";
         Cursor cursor = db.rawQuery(countQuery, null);
 
         int count = cursor.getCount();
@@ -189,6 +215,13 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         String QUERY = "INSERT INTO chord (id, judul, penyanyi,  genre, level, durasi_menit, durasi_detik, chord_lirik)" +
                 "VALUES ('"+id+"','"+judul+"', '"+penyanyi+"', '"+genre+"', '"+level+"', '"+durasiMenit+"', '"+durasiDetik+"', '"+chordLirik+"')";
+        database.execSQL(QUERY);
+    }
+
+    public void addComment (Integer id, Integer id_user, Integer id_chord, Integer rating, String commnet){
+        SQLiteDatabase database = this.getWritableDatabase();
+        String QUERY = "INSERT INTO commnets (id, id_user, id_chord,  rating, commnet)" +
+                "VALUES ('"+id+"','"+id_user+"', '"+id_chord+"', '"+rating+"', '"+commnet+"')";
         database.execSQL(QUERY);
     }
 }
