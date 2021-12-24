@@ -94,6 +94,8 @@ public class MyChordActivity extends AppCompatActivity {
         listChord.setAdapter(adapter);
     }
 
+
+
     private void loadRecords(){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);

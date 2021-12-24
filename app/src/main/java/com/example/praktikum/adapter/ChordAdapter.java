@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,11 +80,14 @@ public class ChordAdapter extends RecyclerView.Adapter<ChordAdapter.ViewHolder> 
         //get data
         Chord chord = arrayList.get(position);
         String id = chord.getId();
+        Log.v("asda", id);
         String judul = chord.getJudul();
         String penyanyi = chord.getPenyanyi();
+        String genre = chord.getGenre();
         String level = chord.getLevel();
         String lamaMenit = chord.getDurasiMenit();
         String lamaDetik = chord.getDurasiDetik();
+        String chordLirik = chord.getChordLirik();
 
         //set data ke views
         holder.textJudulLagu.setText(judul);
@@ -98,7 +102,9 @@ public class ChordAdapter extends RecyclerView.Adapter<ChordAdapter.ViewHolder> 
             public void onClick(View v) {
                 //pass record id to next activity to show details of that records
                 Intent intent = new Intent(context, DetailChordActivity.class);
-                intent.putExtra("id_chord", id);
+                Chord chordNew = new Chord(id, judul, penyanyi, genre, level,
+                        lamaMenit, lamaDetik, chordLirik);
+                intent.putExtra("chord", chordNew);
                 intent.putExtra("asal", "list");
                 context.startActivity(intent);
             }

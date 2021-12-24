@@ -11,8 +11,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -75,9 +78,9 @@ public class DetailChordActivity extends AppCompatActivity {
 
         // get id record dari adapter melalui intent
         intent = getIntent();
-        idChord = intent.getStringExtra("id_chord");
         asal = intent.getStringExtra("asal");
         chord = intent.getParcelableExtra("chord");
+        idChord = chord.getId();
 
         seekRating = findViewById(R.id.SeekBarRating);
         etComment = findViewById(R.id.editTextComment);
@@ -99,9 +102,10 @@ public class DetailChordActivity extends AppCompatActivity {
             ratingLabel.setVisibility(View.INVISIBLE);
             editTextCommentLayout.setVisibility(View.INVISIBLE);
         }else{
-            dbHelper = new DBHelper(this);
+            fromAdd();
+//            dbHelper = new DBHelper(this);
 
-            showDetailChord();
+//            showDetailChord();
 
 
             submitComment.setOnClickListener(new View.OnClickListener() {
@@ -240,11 +244,7 @@ public class DetailChordActivity extends AppCompatActivity {
 
         String[] iniGenre;
 
-        if(asal.equals("add")){
-            iniGenre = chord.getGenre().split("-");
-        }else{
-            iniGenre = genre.split("-");
-        }
+        iniGenre = chord.getGenre().split("-");
 
         if(iniGenre.length > 1){
             genre1.setVisibility(View.VISIBLE);
@@ -389,5 +389,29 @@ public class DetailChordActivity extends AppCompatActivity {
         durasidetikText.setText(chord.getDurasiDetik());
         genreSetter();
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(DetailChordActivity.this,"onRestart",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(DetailChordActivity.this,"onResume",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Toast.makeText(DetailChordActivity.this,"onStop",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(DetailChordActivity.this,"onDestroy",Toast.LENGTH_SHORT).show();
     }
 }
