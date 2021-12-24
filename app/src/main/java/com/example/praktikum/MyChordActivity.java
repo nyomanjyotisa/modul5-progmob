@@ -380,4 +380,11 @@ public class MyChordActivity extends AppCompatActivity {
 //        // Add the request to the RequestQueue.
 //        queue.add(stringRequest);
 //    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(MyChordActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

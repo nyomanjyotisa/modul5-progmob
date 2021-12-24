@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -58,6 +59,8 @@ public class DetailChordActivity extends AppCompatActivity {
     Intent intent;
     Chord chord;
     RelativeLayout editTextCommentLayout;
+    SharedPreferences sharedPreferencesLogin;
+    String id_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,9 @@ public class DetailChordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_chord);
 
 //        foto_resep = findViewById(R.id.fotoResep);
+
+        sharedPreferencesLogin = getSharedPreferences("loginPre", MODE_PRIVATE);
+        id_user = sharedPreferencesLogin.getString("id_user", "");
 
         judulText = findViewById(R.id.textJudulLagu);
         penyanyiText = findViewById(R.id.textPenyanyi);
@@ -81,6 +87,9 @@ public class DetailChordActivity extends AppCompatActivity {
         asal = intent.getStringExtra("asal");
         chord = intent.getParcelableExtra("chord");
         idChord = chord.getId();
+
+        Log.v("tessss", chord.getJudul());
+
 
         seekRating = findViewById(R.id.SeekBarRating);
         etComment = findViewById(R.id.editTextComment);
@@ -367,7 +376,7 @@ public class DetailChordActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("id_user", String.valueOf(1));
+                map.put("id_user", id_user);
                 map.put("id_chord", idChord);
                 map.put("rating", String.valueOf(seekRating.getProgress()));
                 map.put("comment", etComment.getText().toString());

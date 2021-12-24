@@ -79,8 +79,9 @@ public class ChordAdapter extends RecyclerView.Adapter<ChordAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ChordAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         //get data
         Chord chord = arrayList.get(position);
-        String id = chord.getId();
-        Log.v("asda", id);
+        String id_chord = chord.getId();
+//        Log.v("asda", "zzzz");
+//        Log.v("asda", id_chord);
         String judul = chord.getJudul();
         String penyanyi = chord.getPenyanyi();
         String genre = chord.getGenre();
@@ -102,7 +103,7 @@ public class ChordAdapter extends RecyclerView.Adapter<ChordAdapter.ViewHolder> 
             public void onClick(View v) {
                 //pass record id to next activity to show details of that records
                 Intent intent = new Intent(context, DetailChordActivity.class);
-                Chord chordNew = new Chord(id, judul, penyanyi, genre, level,
+                Chord chordNew = new Chord(id_chord, judul, penyanyi, genre, level,
                         lamaMenit, lamaDetik, chordLirik);
                 intent.putExtra("chord", chordNew);
                 intent.putExtra("asal", "list");

@@ -265,4 +265,10 @@ public class MainActivity extends AppCompatActivity{
         //handle item menu
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+    }
 }
