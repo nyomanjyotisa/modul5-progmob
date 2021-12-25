@@ -55,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.editTextEmailSignIn);
         password = (EditText) findViewById(R.id.editTextPasswordSignIn);
 
-//        shp = getSharedPreferences("id_user", MODE_PRIVATE);
         CheckLogin();
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +96,6 @@ public class LoginActivity extends AppCompatActivity {
                 List<UserHandler> dataPenggunaList = response.body().getData();
 
                 if(dataPenggunaList.size() > 0) {
-//                    Toast.makeText(LoginActivity.this, "" + dataPenggunaList.get(0).getId(), Toast.LENGTH_LONG).show();
                     if (shp == null)
                         shp = getSharedPreferences("loginPre", MODE_PRIVATE);
                     shpEditor = shp.edit();
@@ -120,60 +118,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-//    private void login(){
-//        String postUrl = Constant.LOGIN;
-//        RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-//
-//        JSONObject postData = new JSONObject();
-//        try {
-//            postData.put("email", emailLogin);
-//            postData.put("password", passwordLogin);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                JSONObject object = response;
-//                try {
-//                    if(!object.getString("access_token").isEmpty()){
-//                        JSONObject user = object.getJSONObject("user");
-//                        SharedPreferences userPref = LoginActivity.this.getSharedPreferences("loginsession", LoginActivity.this.MODE_PRIVATE);
-//                        SharedPreferences.Editor editor = userPref.edit();
-//                        editor.putString("token",object.getString("access_token"));
-//                        editor.putInt("id_user",user.getInt("id_user"));
-//                        editor.putString("name",user.getString("name"));
-//                        editor.putString("email",user.getString("email"));
-//                        editor.apply();
-//
-//                        Context context = LoginActivity.this;
-//                        Toast toast = Toast.makeText(context, "Login berhasil", Toast.LENGTH_SHORT);
-//                        toast.show();
-//
-//                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    Context context = LoginActivity.this;
-//                    Toast gagal = Toast.makeText(context, "Account is not valid. Please wait for admin validation.", Toast.LENGTH_SHORT);
-//                    gagal.show();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//                Context context = LoginActivity.this;
-//                Toast toast = Toast.makeText(context, "Account Not Found. Login Failed.", Toast.LENGTH_SHORT);
-//                toast.show();
-//            }
-//        });
-//
-//        requestQueue.add(jsonObjectRequest);
-//    }
     public void CheckLogin() {
         if (shp == null)
             shp = getSharedPreferences("loginPre", MODE_PRIVATE);

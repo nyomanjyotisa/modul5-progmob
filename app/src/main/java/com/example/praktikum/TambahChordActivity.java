@@ -83,49 +83,6 @@ public class TambahChordActivity extends AppCompatActivity {
         sedang = findViewById(R.id.radioButtonSedang);
         susah = findViewById(R.id.radioButtonSusah);
 
-
-//        //get data dari intent
-//        Intent intent = getIntent();
-//        isEditMode = intent.getBooleanExtra("isEditMode", false);
-//        if (isEditMode){
-//            //update data
-//
-//            //get data
-//            id = intent.getStringExtra("id");
-//            judul_lagu = intent.getStringExtra("judul");
-//            nama_penyanyi = intent.getStringExtra("penyanyi");
-//            level_lagu = intent.getStringExtra("level");
-//            detik_lagu = intent.getStringExtra("detik");
-//            menit_lagu = intent.getStringExtra("menit");
-//            chord_lagu = intent.getStringExtra("chord_lirik");
-//            genre_lagu = intent.getStringExtra("genre");
-//
-//            //set data ke view
-//            nama.setText(judul_lagu);
-//            penyanyi.setText(nama_penyanyi);
-//            chordl.setText(chord_lagu);
-//            textmenit.setText(menit_lagu);
-//            textdetik.setText(detik_lagu);
-//
-//            //set radio button checked sesuai value dari resep
-//            if ("Mudah".equals(level_lagu)){
-//                mudah.setChecked(true);
-//            }else if ("Sedang".equals(level_lagu)){
-//                sedang.setChecked(true);
-//            }else if ("Sudah".equals(level_lagu)){
-//                susah.setChecked(true);
-//            }else {
-//                mudah.setChecked(false);
-//                sedang.setChecked(false);
-//                susah.setChecked(false);
-//            }
-//
-//            getCheckBoxes();
-//        }
-//        else {
-//
-//        }
-
         dbHelper = new DBHelper(this);
 
         textmenit.setText(menit.getProgress() + "");
@@ -251,7 +208,6 @@ public class TambahChordActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 insertData();
-//                submit();
             }
         });
 
@@ -299,52 +255,24 @@ public class TambahChordActivity extends AppCompatActivity {
         if(cb8.isChecked()) {
             genre_lagu += "-Blues ";
         }
-//
-//
-//
-//        if (isEditMode){ //update data
-//
-//            //penempatan sementara
-//            updateToWebServe();
-//
-//            dbHelper.update(""+id,
-//                    ""+judul_lagu,
-//                    ""+nama_penyanyi,
-//                    ""+genre_lagu,
-//                    ""+level_lagu,
-//                    ""+menit_lagu,
-//                    ""+detik_lagu,
-//                    ""+chord_lagu
-//            );
-//            Toast.makeText(this,"Data berhasil diupdate", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(this, DetailChordActivity.class);
-//            intent.putExtra("id_chord", id);
-//            startActivity(intent);
-//        }
-//        else { //insert data baru ke tabel
 
-            //penempatan sementara
-//            insertToWebServer();
+        dbHelper.insert(
+                ""+judul_lagu,
+                ""+nama_penyanyi,
+                ""+genre_lagu,
+                ""+level_lagu,
+                ""+menit_lagu,
+                ""+detik_lagu,
+                ""+chord_lagu
+        );
+        Toast.makeText(this,"Data berhasil ditambahkan", Toast.LENGTH_SHORT).show();
 
-            dbHelper.insert(
-                    ""+judul_lagu,
-                    ""+nama_penyanyi,
-                    ""+genre_lagu,
-                    ""+level_lagu,
-                    ""+menit_lagu,
-                    ""+detik_lagu,
-                    ""+chord_lagu
-            );
-            Toast.makeText(this,"Data berhasil ditambahkan", Toast.LENGTH_SHORT).show();
-//            Chord chord = new Chord(id, judul_lagu, nama_penyanyi, genre_lagu, level_lagu, menit_lagu, detik_lagu, chord_lagu);
+        Chord chordNew = new Chord("0", judul_lagu, nama_penyanyi, genre_lagu, level_lagu,
+                menit_lagu, detik_lagu, chord_lagu);
 
-            Chord chordNew = new Chord("0", judul_lagu, nama_penyanyi, genre_lagu, level_lagu,
-                    menit_lagu, detik_lagu, chord_lagu);
-
-            Intent intent = new Intent(this, DetailChordActivity.class);
-            intent.putExtra("asal", "add");
-            intent.putExtra("chord", chordNew);
-            startActivity(intent);
-//        }
+        Intent intent = new Intent(this, DetailChordActivity.class);
+        intent.putExtra("asal", "add");
+        intent.putExtra("chord", chordNew);
+        startActivity(intent);
     }
 }

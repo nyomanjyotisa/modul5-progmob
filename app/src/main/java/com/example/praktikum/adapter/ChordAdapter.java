@@ -80,8 +80,6 @@ public class ChordAdapter extends RecyclerView.Adapter<ChordAdapter.ViewHolder> 
         //get data
         Chord chord = arrayList.get(position);
         String id_chord = chord.getId();
-//        Log.v("asda", "zzzz");
-//        Log.v("asda", id_chord);
         String judul = chord.getJudul();
         String penyanyi = chord.getPenyanyi();
         String genre = chord.getGenre();

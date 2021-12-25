@@ -175,90 +175,12 @@ public class MainActivity extends AppCompatActivity{
             }
         });
     }
-//    private void loadRecords() {
-//        // Instantiate the RequestQueue.
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url = Constant.CHORDS;
-//
-//        // Request a string response from the provided URL.
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            JSONObject object = new JSONObject(response);
-//                            if (object.getBoolean("success")){
-//                                dbHelper.deleteSemua();
-//                                JSONArray array = new JSONArray(object.getString("data"));
-//                                for(int i=0;i<array.length();i++){
-//                                    JSONObject chordObject = array.getJSONObject(i);
-//                                    dbHelper.add(
-//                                            chordObject.getInt("id"),
-//                                            chordObject.getString("judul"),
-//                                            chordObject.getString("penyanyi"),
-//                                            chordObject.getString("genre"),
-//                                            chordObject.getString("level"),
-//                                            chordObject.getString("durasi_menit"),
-//                                            chordObject.getString("durasi_detik"),
-//                                            chordObject.getString("chord_dan_lirik")
-//                                    );
-//                                }
-//                                DBAdapter adapter = new DBAdapter(MainActivity.this, dbHelper.getChord());
-//                                listChord.setAdapter(adapter);
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                        // Display the first 500 characters of the response string.
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(MainActivity.this,"No Connection",Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        // Add the request to the RequestQueue.
-//        queue.add(stringRequest);
-//    }
-
-//    private void searchRecords(String query){
-//        DBAdapter adapter = new DBAdapter(MainActivity.this, dbHelper.searchResep(query));
-//
-//        listResep.setAdapter(adapter);
-//    }
 
     @Override
     public void onResume() {
         super.onResume();
         getChord();
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        //inflate menu
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//
-//        //searchview
-//        MenuItem item = menu.findItem(R.id.action_search);
-//        SearchView searchView = (SearchView) item.getActionView();
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                //search saat tombol search di keybord diklik
-//                searchRecords(query);
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                searchRecords(newText);
-//                return false;
-//            }
-//        });
-//
-//        return super.onCreateOptionsMenu(menu);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
