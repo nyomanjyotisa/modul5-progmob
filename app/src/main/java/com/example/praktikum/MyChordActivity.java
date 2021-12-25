@@ -20,7 +20,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.praktikum.adapter.DBAdapter;
+import com.example.praktikum.api.Constant;
 import com.example.praktikum.helper.DBHelper;
+import com.example.praktikum.model.Chord;
 import com.example.praktikum.model.CommentModel;
 
 import org.json.JSONArray;
@@ -97,7 +99,7 @@ public class MyChordActivity extends AppCompatActivity {
     private void loadRecords(){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url =Constant.USER_CHORD;
+        String url = Constant.USER_CHORD;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -145,6 +147,13 @@ public class MyChordActivity extends AppCompatActivity {
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(MyChordActivity.this, ProfileActivity.class);
+        startActivity(intent);
     }
 
     private void syncWebServer(){

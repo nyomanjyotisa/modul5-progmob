@@ -5,9 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.example.praktikum.Chord;
+import com.example.praktikum.model.Chord;
 import com.example.praktikum.model.CommentModel;
 
 import java.util.ArrayList;
@@ -180,17 +179,6 @@ public class DBHelper extends SQLiteOpenHelper {
         database.update("chord", values, "id = ?", new String[]{id});
 
         database.close();
-
-//        String QUERY = "UPDATE resep SET nama_resep = '"+nama_resep+"', " +
-//                "foto = '"+foto+"', " +
-//                "porsi = '"+porsi+"', " +
-//                "level = '"+level+"', " +
-//                "lama = '"+lama+"', " +
-//                "bahan = '"+bahan+"', " +
-//                "tahap = '"+tahap+"' " +
-//                "kategori = '"+kategori+"' " +
-//                "WHERE id = "+id;
-//        database.execSQL(QUERY);
     }
 
     // menghapus data
@@ -199,8 +187,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         database.delete("chord", "id = ?", new String[]{id});
         database.close();
-//        String QUERY = "DELETE FROM resep WHERE id = "+id;
-//        database.execSQL(QUERY);
     }
 
     public void deleteSemua(){

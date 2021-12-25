@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.praktikum.api.Constant;
 import com.example.praktikum.helper.DBHelper;
 
 import org.json.JSONException;
@@ -346,7 +347,7 @@ public class EditChordActivity extends AppCompatActivity {
     public void updateToWebServe(){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url =Constant.UPDATE_CHORD;
+        String url = Constant.UPDATE_CHORD;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,

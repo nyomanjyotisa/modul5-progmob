@@ -1,11 +1,10 @@
-package com.example.praktikum;
+package com.example.praktikum.api;
 
 public class Constant {
-//    public static final String URL="https://progmob.seratusbali.xyz/";
     public static final String URL="http://10.0.2.2:8000/";
     public static final String HOME=URL+"api";
-    public static final String LOGIN=HOME+"/login";
-    public static final String REGISTER=HOME+"/register";
+    public static final String LOGIN=HOME+"/user/login";
+    public static final String REGISTER=HOME+"/user/register";
     public static final String CHORDS=HOME+"/chords";
     public static final String ADD_CHORD=CHORDS+"/create";
     public static final String STORE_CHORD=CHORDS+"/store";

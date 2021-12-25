@@ -17,21 +17,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.praktikum.api.RetroHelper;
-import com.example.praktikum.api.UserAPIHelper;
-import com.example.praktikum.model.UserHandler;
+import com.example.praktikum.api.Constant;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     TextView textSignup;
@@ -55,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.editTextEmailSignIn);
         password = (EditText) findViewById(R.id.editTextPasswordSignIn);
 
-//        shp = getSharedPreferences("id_user", MODE_PRIVATE);
         CheckLogin();
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -85,95 +78,70 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void login(){
-        UserAPIHelper userRequestData = RetroHelper.connectRetrofit().create(UserAPIHelper.class);
-        Call<UserHandler> getPengguna = userRequestData.checkUsernamePassword(emailLogin, passwordLogin);
+    private void login(){
+        String postUrl = Constant.LOGIN;
+        RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
 
-        getPengguna.enqueue(new Callback<UserHandler>() {
-            @Override
-            public void onResponse(Call<UserHandler> call, Response<UserHandler> response) {
-                Boolean statusAPI = response.body().getStatusAPI();
-                String message = response.body().getMessage();
-                List<UserHandler> dataPenggunaList = response.body().getData();
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("email", emailLogin);
+            postData.put("password", passwordLogin);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-                if(dataPenggunaList.size() > 0) {
-//                    Toast.makeText(LoginActivity.this, "" + dataPenggunaList.get(0).getId(), Toast.LENGTH_LONG).show();
-                    if (shp == null)
-                        shp = getSharedPreferences("loginPre", MODE_PRIVATE);
-                    shpEditor = shp.edit();
-                    shpEditor.putString("id_user", String.valueOf(dataPenggunaList.get(0).getId()));
-                    shpEditor.putString("username", String.valueOf(dataPenggunaList.get(0).getUsername()));
-                    shpEditor.commit();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("id", String.valueOf(dataPenggunaList.get(0).getId()));
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(LoginActivity.this, "Username atau Password Salah!", Toast.LENGTH_LONG).show();
+        @Override
+            public void onResponse(JSONObject response) {
+                JSONObject object = response;
+                try {
+                    if(object.getBoolean("success")) {
+                        JSONArray user = object.getJSONArray("data");
+                        for(int i=0; i < user.length(); i++) {
+                            JSONObject jsonobject = user.getJSONObject(i);
+                            String id       = jsonobject.getString("id");
+                            String name    = jsonobject.getString("name");
+                            String email  = jsonobject.getString("email");
+                            String email_verified_at = jsonobject.getString("email_verified_at");
+                            String created_at = jsonobject.getString("created_at");
+                            String updated_at = jsonobject.getString("updated_at");
+
+                            if (shp == null)
+                                shp = getSharedPreferences("loginPre", MODE_PRIVATE);
+                            shpEditor = shp.edit();
+                            shpEditor.putString("id_user", id);
+                            shpEditor.putString("username", name);
+                            shpEditor.commit();
+                        }
+                        Context context = LoginActivity.this;
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast sukses = Toast.makeText(context, "Login Success", duration);
+                        sukses.show();
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Context context = LoginActivity.this;
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast sukses = Toast.makeText(context, "Login failed", duration);
+                    sukses.show();
                 }
             }
-
+        }, new Response.ErrorListener() {
             @Override
-            public void onFailure(Call<UserHandler> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Gagal mengambil username dan password : "+ t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Context context = LoginActivity.this;
+                Toast toast = Toast.makeText(context, "Login Failed.", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
+        requestQueue.add(jsonObjectRequest);
     }
 
-//    private void login(){
-//        String postUrl = Constant.LOGIN;
-//        RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-//
-//        JSONObject postData = new JSONObject();
-//        try {
-//            postData.put("email", emailLogin);
-//            postData.put("password", passwordLogin);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                JSONObject object = response;
-//                try {
-//                    if(!object.getString("access_token").isEmpty()){
-//                        JSONObject user = object.getJSONObject("user");
-//                        SharedPreferences userPref = LoginActivity.this.getSharedPreferences("loginsession", LoginActivity.this.MODE_PRIVATE);
-//                        SharedPreferences.Editor editor = userPref.edit();
-//                        editor.putString("token",object.getString("access_token"));
-//                        editor.putInt("id_user",user.getInt("id_user"));
-//                        editor.putString("name",user.getString("name"));
-//                        editor.putString("email",user.getString("email"));
-//                        editor.apply();
-//
-//                        Context context = LoginActivity.this;
-//                        Toast toast = Toast.makeText(context, "Login berhasil", Toast.LENGTH_SHORT);
-//                        toast.show();
-//
-//                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    Context context = LoginActivity.this;
-//                    Toast gagal = Toast.makeText(context, "Account is not valid. Please wait for admin validation.", Toast.LENGTH_SHORT);
-//                    gagal.show();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//                Context context = LoginActivity.this;
-//                Toast toast = Toast.makeText(context, "Account Not Found. Login Failed.", Toast.LENGTH_SHORT);
-//                toast.show();
-//            }
-//        });
-//
-//        requestQueue.add(jsonObjectRequest);
-//    }
     public void CheckLogin() {
         if (shp == null)
             shp = getSharedPreferences("loginPre", MODE_PRIVATE);

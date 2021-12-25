@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,7 +24,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.praktikum.api.Constant;
 import com.example.praktikum.helper.DBHelper;
+import com.example.praktikum.model.Chord;
 
 import java.util.ArrayList;
 import org.json.JSONException;
@@ -384,7 +385,7 @@ public class TambahChordActivity extends AppCompatActivity {
     private void insertToWebServer(){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url =Constant.ADD_CHORD;
+        String url = Constant.ADD_CHORD;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
