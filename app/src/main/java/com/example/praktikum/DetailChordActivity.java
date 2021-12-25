@@ -46,7 +46,6 @@ import java.util.Map;
 
 public class DetailChordActivity extends AppCompatActivity {
     private TextView judulText, penyanyiText, chordLaguText, levelText, durasimenitText, durasidetikText;
-//    private ImageView foto_resep;
     private String idChord, genre, asal;
     private DBHelper dbHelper;
     private FloatingActionButton btnBack, btnMore;
@@ -67,8 +66,6 @@ public class DetailChordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_chord);
-
-//        foto_resep = findViewById(R.id.fotoResep);
 
         sharedPreferencesLogin = getSharedPreferences("loginPre", MODE_PRIVATE);
         id_user = sharedPreferencesLogin.getString("id_user", "");
@@ -113,10 +110,6 @@ public class DetailChordActivity extends AppCompatActivity {
             editTextCommentLayout.setVisibility(View.INVISIBLE);
         }else{
             fromAdd();
-//            dbHelper = new DBHelper(this);
-
-//            showDetailChord();
-
 
             submitComment.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -142,20 +135,6 @@ public class DetailChordActivity extends AppCompatActivity {
             }
         });
 
-//        Bundle bundle = intent.getExtras();
-//
-//        Chord chord;
-//
-//        if (bundle != null){
-//            chord = bundle.getParcelable("chord");
-//            judulText.setText(chord.getJudul());
-//            penyanyiText.setText(chord.getPenyanyi());
-//            genreText.setText(chord.getGenre());
-//            levelText.setText(chord.getLevel());
-//            durasimenitText.setText(chord.getDurasiMenit());
-//            durasidetikText.setText(chord.getDurasiDetik());
-//            chordLaguText.setText(chord.getChordLirik());
-//        }
     }
 
     private void showDetailChord() {

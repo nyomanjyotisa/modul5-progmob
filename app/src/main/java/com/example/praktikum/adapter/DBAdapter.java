@@ -126,9 +126,6 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
                         ""+chordLirik);
             }
         });
-//        holder.nama_resep.setText(arrayList.get(position).getNama_resep());
-//        holder.kategori.setText(arrayList.get(position).getInputCb());
-//        databaseHelper = new DBHelper(context);
     }
 
     @Override
@@ -160,7 +157,6 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
                 //tombol delete diklik
                 else if (which==1){
                     databaseHelper.delete(id);
-//                    deleteOnWebServer(id);
                     ((MyChordActivity)context).onResume();
                 }
             }

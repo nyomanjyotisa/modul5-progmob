@@ -151,12 +151,6 @@ public class MyChordActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(MyChordActivity.this, ProfileActivity.class);
-        startActivity(intent);
-    }
 
     private void syncWebServer(){
         getUserChordComments();
@@ -185,15 +179,6 @@ public class MyChordActivity extends AppCompatActivity {
                     curChord.getChordLirik());
         }
 
-//        commentFromSQLite = dbHelper.getComment();
-//        for(int i=0; i<commentFromSQLite.size(); i++) {
-//            CommentModel curComment = commentFromSQLite.get(i);
-//            insertCommentToWebServer(curComment.getId(),
-//                    curComment.getIdUser(),
-//                    curComment.getIdChord(),
-//                    curComment.getRating(),
-//                    curComment.getComment());
-//        }
     }
 
     private void deleteUserChordOnWebserver(){
@@ -210,9 +195,6 @@ public class MyChordActivity extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(response);
                             if(object.getBoolean("success")){
-//                                Intent intent = new Intent(TambahChordActivity.this, MainActivity.class);
-//                                startActivity(intent);
-//                                Toast.makeText(getApplicationContext(), "Add Data Success", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -308,8 +290,6 @@ public class MyChordActivity extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(response);
                             if(object.getBoolean("success")){
-//                                Intent intent = new Intent(TambahChordActivity.this, MainActivity.class);
-//                                startActivity(intent);
                                 Toast.makeText(getApplicationContext(), "Upload Chord Success", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
@@ -342,53 +322,6 @@ public class MyChordActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
-//    private void insertCommentToWebServer(Integer id,
-//                                          Integer id_user,
-//                                          Integer id_chord,
-//                                          Integer rating,
-//                                          String comment){
-//        // Instantiate the RequestQueue.
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url =Constant.STORE_COMMENT;
-//
-//        // Request a string response from the provided URL.
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        // Display the first 500 characters of the response string.
-//                        try {
-//                            JSONObject object = new JSONObject(response);
-//                            if(object.getBoolean("success")){
-////                                Intent intent = new Intent(TambahChordActivity.this, MainActivity.class);
-////                                startActivity(intent);
-//                                Toast.makeText(getApplicationContext(), "Upload Chord Success", Toast.LENGTH_SHORT).show();
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(MyChordActivity.this,"Add Comment Gagal",Toast.LENGTH_SHORT).show();
-//            }
-//        }){
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                HashMap<String, String> map = new HashMap<>();
-//                map.put("id", String.valueOf(id));
-//                map.put("id_user", String.valueOf(id_user));
-//                map.put("judul", String.valueOf(id_chord));
-//                map.put("penyanyi", String.valueOf(rating));
-//                map.put("level",comment);
-//                return map;
-//            }
-//        };
-//
-//        // Add the request to the RequestQueue.
-//        queue.add(stringRequest);
-//    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();

@@ -27,6 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.praktikum.helper.DBHelper;
+import com.example.praktikum.model.Chord;
 
 import java.util.ArrayList;
 import org.json.JSONException;
@@ -336,7 +337,6 @@ public class TambahChordActivity extends AppCompatActivity {
                     ""+chord_lagu
             );
             Toast.makeText(this,"Data berhasil ditambahkan", Toast.LENGTH_SHORT).show();
-//            Chord chord = new Chord(id, judul_lagu, nama_penyanyi, genre_lagu, level_lagu, menit_lagu, detik_lagu, chord_lagu);
 
             Chord chordNew = new Chord("0", judul_lagu, nama_penyanyi, genre_lagu, level_lagu,
                     menit_lagu, detik_lagu, chord_lagu);
