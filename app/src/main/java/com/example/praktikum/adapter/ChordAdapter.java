@@ -16,38 +16,31 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.praktikum.Chord;
-import com.example.praktikum.Constant;
 import com.example.praktikum.DetailChordActivity;
 import com.example.praktikum.EditChordActivity;
 import com.example.praktikum.MainActivity;
 import com.example.praktikum.MyChordActivity;
 import com.example.praktikum.R;
 import com.example.praktikum.helper.DBHelper;
+import com.example.praktikum.model.Chord;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ChordAdapter extends RecyclerView.Adapter<ChordAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<Chord> arrayList;
+    private List<Chord> listChord;
     DBHelper databaseHelper;
 
     //constructor
-    public ChordAdapter(Context context, ArrayList<Chord> arrayList) {
+    public ChordAdapter(Context context, List<Chord> listChord) {
         this.context = context;
-        this.arrayList = arrayList;
+        this.listChord = listChord;
 
         databaseHelper = new DBHelper(context);
     }
@@ -78,7 +71,7 @@ public class ChordAdapter extends RecyclerView.Adapter<ChordAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ChordAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         //get data
-        Chord chord = arrayList.get(position);
+        Chord chord = listChord.get(position);
         String id_chord = chord.getId();
         String judul = chord.getJudul();
         String penyanyi = chord.getPenyanyi();
@@ -105,13 +98,13 @@ public class ChordAdapter extends RecyclerView.Adapter<ChordAdapter.ViewHolder> 
                         lamaMenit, lamaDetik, chordLirik);
                 intent.putExtra("chord", chordNew);
                 intent.putExtra("asal", "list");
-                context.startActivity(intent);
+                context.startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return listChord.size();
     }
 }

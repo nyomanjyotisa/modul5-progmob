@@ -21,7 +21,7 @@
                 civ_border_width="10dp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/profile" />
+                android:src="@drawable/blank_user" />
 
             <TextView
                 android:id="@+id/textHai"
@@ -36,7 +36,7 @@
                 android:id="@+id/textUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dipa"
+                android:text="Selamat Datang"
                 android:fontFamily="@font/poppins_bold"
                 android:textSize="20sp"
                 android:layout_gravity="center"/>

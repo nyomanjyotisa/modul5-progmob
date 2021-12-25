@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,19 +15,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.praktikum.api.RetroHelper;
-import com.example.praktikum.api.UserAPIHelper;
-import com.example.praktikum.model.UserHandler;
+import com.example.praktikum.api.Constant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
     EditText editTextUsername, editTextEmail, editTextPassword;
@@ -75,33 +69,55 @@ public class RegisterActivity extends AppCompatActivity {
                     editTextUsername.setError("Username harus diisi!");
 
                 }else{
-                    register();
+                    register(usernameSignup, emailSignup, passwordSignup);
                 }
             }
         });
     }
 
-    public void register(){
-        UserAPIHelper userRegister = RetroHelper.connectRetrofit().create(UserAPIHelper.class);
-        Call<UserHandler> addPengguna = userRegister.penggunaInsertData(usernameSignup, emailSignup, passwordSignup);
+    private void register(String username,String email, String password){
+        RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
+        String postUrl = Constant.REGISTER;
 
-        addPengguna.enqueue(new Callback<UserHandler>() {
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("name", username);
+            postData.put("email", email);
+            postData.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, postData, new com.android.volley.Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(Call<UserHandler> call, Response<UserHandler> response) {
-                Boolean statusAPI = response.body().getStatusAPI();
-                String message = response.body().getMessage();
-                if (statusAPI == true) {
-                    Toast.makeText(RegisterActivity.this, ""+ message, Toast.LENGTH_LONG).show();
-                    finish();
-                } else {
-                    Toast.makeText(RegisterActivity.this, "" + message, Toast.LENGTH_LONG).show();
+            public void onResponse(JSONObject response) {
+                JSONObject object = response;
+                try {
+                    if (object.getBoolean("success")) {
+                        Context context = RegisterActivity.this;
+                        Toast toast = Toast.makeText(context, "Register berhasil.", Toast.LENGTH_SHORT);
+                        toast.show();
+
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Context context = RegisterActivity.this;
+                    Toast toast = Toast.makeText(context, "Register Gagal.", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             }
-
+        }, new Response.ErrorListener() {
             @Override
-            public void onFailure(Call<UserHandler> call, Throwable t) {
-                Toast.makeText(RegisterActivity.this, "Gagal menambah data pengguna : "+ t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Context context = RegisterActivity.this;
+                Toast toast = Toast.makeText(context, "Register Gagal.", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
+        requestQueue.add(jsonObjectRequest);
     }
 }

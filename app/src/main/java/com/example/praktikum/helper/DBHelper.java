@@ -5,9 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.example.praktikum.Chord;
+import com.example.praktikum.model.Chord;
 import com.example.praktikum.model.CommentModel;
 
 import java.util.ArrayList;

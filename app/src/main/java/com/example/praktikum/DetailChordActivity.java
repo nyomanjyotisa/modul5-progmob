@@ -30,8 +30,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.praktikum.adapter.CommentAdapter;
-import com.example.praktikum.adapter.DBAdapter;
+import com.example.praktikum.api.Constant;
 import com.example.praktikum.helper.DBHelper;
+import com.example.praktikum.model.Chord;
 import com.example.praktikum.model.CommentModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -106,7 +107,6 @@ public class DetailChordActivity extends AppCompatActivity {
             editTextCommentLayout.setVisibility(View.INVISIBLE);
         }else{
             fromAdd();
-//            showDetailChord();
 
             submitComment.setOnClickListener(new View.OnClickListener() {
                 @Override
