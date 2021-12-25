@@ -6,13 +6,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -56,6 +60,8 @@ public class DetailChordActivity extends AppCompatActivity {
     Intent intent;
     Chord chord;
     RelativeLayout editTextCommentLayout;
+    SharedPreferences sharedPreferencesLogin;
+    String id_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,9 @@ public class DetailChordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_chord);
 
 //        foto_resep = findViewById(R.id.fotoResep);
+
+        sharedPreferencesLogin = getSharedPreferences("loginPre", MODE_PRIVATE);
+        id_user = sharedPreferencesLogin.getString("id_user", "");
 
         judulText = findViewById(R.id.textJudulLagu);
         penyanyiText = findViewById(R.id.textPenyanyi);
@@ -76,9 +85,12 @@ public class DetailChordActivity extends AppCompatActivity {
 
         // get id record dari adapter melalui intent
         intent = getIntent();
-        idChord = intent.getStringExtra("id_chord");
         asal = intent.getStringExtra("asal");
         chord = intent.getParcelableExtra("chord");
+        idChord = chord.getId();
+
+        Log.v("tessss", chord.getJudul());
+
 
         seekRating = findViewById(R.id.SeekBarRating);
         etComment = findViewById(R.id.editTextComment);
@@ -100,9 +112,10 @@ public class DetailChordActivity extends AppCompatActivity {
             ratingLabel.setVisibility(View.INVISIBLE);
             editTextCommentLayout.setVisibility(View.INVISIBLE);
         }else{
-            dbHelper = new DBHelper(this);
+            fromAdd();
+//            dbHelper = new DBHelper(this);
 
-            showDetailChord();
+//            showDetailChord();
 
 
             submitComment.setOnClickListener(new View.OnClickListener() {
@@ -241,11 +254,7 @@ public class DetailChordActivity extends AppCompatActivity {
 
         String[] iniGenre;
 
-        if(asal.equals("add")){
-            iniGenre = chord.getGenre().split("-");
-        }else{
-            iniGenre = genre.split("-");
-        }
+        iniGenre = chord.getGenre().split("-");
 
         if(iniGenre.length > 1){
             genre1.setVisibility(View.VISIBLE);
@@ -368,7 +377,7 @@ public class DetailChordActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("id_user", String.valueOf(1));
+                map.put("id_user", id_user);
                 map.put("id_chord", idChord);
                 map.put("rating", String.valueOf(seekRating.getProgress()));
                 map.put("comment", etComment.getText().toString());
@@ -390,5 +399,29 @@ public class DetailChordActivity extends AppCompatActivity {
         durasidetikText.setText(chord.getDurasiDetik());
         genreSetter();
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(DetailChordActivity.this,"onRestart",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(DetailChordActivity.this,"onResume",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Toast.makeText(DetailChordActivity.this,"onStop",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(DetailChordActivity.this,"onDestroy",Toast.LENGTH_SHORT).show();
     }
 }

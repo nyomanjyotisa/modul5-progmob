@@ -24,7 +24,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.praktikum.api.Constant;
 import com.example.praktikum.helper.DBHelper;
 
 import org.json.JSONException;
@@ -109,7 +108,6 @@ public class EditChordActivity extends AppCompatActivity {
             sedang.setChecked(false);
             susah.setChecked(false);
         }
-
         getCheckBoxes();
 
         dbHelper = new DBHelper(this);
@@ -203,7 +201,7 @@ public class EditChordActivity extends AppCompatActivity {
         level_lagu = radio.getText().toString();
         menit_lagu = textmenit.getText().toString();
         detik_lagu = textdetik.getText().toString();
-        genre_lagu = "Genre lagu yang dipilih: ";
+        genre_lagu = "";
 
         if(cb1.isChecked()){
             genre_lagu += "\n-Jazz";
@@ -237,7 +235,6 @@ public class EditChordActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 insertData();
-//                submit();
             }
         });
 
@@ -259,37 +256,6 @@ public class EditChordActivity extends AppCompatActivity {
         level_lagu = radio.getText().toString();
         menit_lagu = textmenit.getText().toString();
         detik_lagu = textdetik.getText().toString();
-        genre_lagu = "";
-
-        if(cb1.isChecked()){
-            genre_lagu += "-Jazz ";
-        }
-        if(cb2.isChecked()){
-            genre_lagu += "-Pop ";
-        }
-        if(cb3.isChecked()){
-            genre_lagu += "-RnB ";
-        }
-        if(cb4.isChecked()){
-            genre_lagu += "-Rock ";
-        }
-        if(cb5.isChecked()){
-            genre_lagu += "-Hip Hop ";
-        }
-        if(cb6.isChecked()){
-            genre_lagu += "-EDM ";
-        }
-        if(cb7.isChecked()){
-            genre_lagu += "-Akustik ";
-        }
-        if(cb8.isChecked()) {
-            genre_lagu += "-Blues ";
-        }
-
-        //update data
-
-        //penempatan sementara
-//        updateToWebServe();
 
         dbHelper.update(""+id,
                 ""+judul_lagu,
@@ -342,52 +308,5 @@ public class EditChordActivity extends AppCompatActivity {
             cb8.setChecked(true);
             cbs.add(cb8.getText().toString());
         }
-    }
-
-    public void updateToWebServe(){
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constant.UPDATE_CHORD;
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        try {
-                            JSONObject object = new JSONObject(response);
-                            if(object.getBoolean("success")){
-                                Intent intent = new Intent(EditChordActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                Toast.makeText(getApplicationContext(), "Update Data Success", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(EditChordActivity.this,"Update Gagal",Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("id",id);
-                map.put("judul",judul_lagu);
-                map.put("penyanyi", nama_penyanyi);
-                map.put("level",level_lagu);
-                map.put("genre", genre_lagu);
-                map.put("durasi_menit", menit_lagu);
-                map.put("durasi_detik", detik_lagu);
-                map.put("chord_dan_lirik", chord_lagu);
-                return map;
-            }
-        };
-
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
     }
 }

@@ -27,6 +27,7 @@ public class Chord implements Parcelable {
     }
 
     protected Chord(Parcel in) {
+        id = in.readString();
         judul = in.readString();
         penyanyi = in.readString();
         genre = in.readString();
@@ -127,6 +128,7 @@ public class Chord implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
         parcel.writeString(judul);
         parcel.writeString(penyanyi);
         parcel.writeString(genre);

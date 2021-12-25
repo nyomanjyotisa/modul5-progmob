@@ -88,7 +88,6 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
         String lamaMenit = chord.getDurasiMenit();
         String lamaDetik = chord.getDurasiDetik();
         String chordLirik = chord.getChordLirik();
-//        Resep resep = new Resep(id, nama, foto, porsi, bahan, tahap, level, lama, kategori);
 
         //set data ke views
         holder.textJudulLagu.setText(judul);
@@ -167,42 +166,5 @@ public class DBAdapter extends RecyclerView.Adapter<DBAdapter.ViewHolder> {
             }
         });
         builder.create().show();
-    }
-
-    public void deleteOnWebServer(String id){
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Constant.DELETE_CHORD;
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject object = new JSONObject(response);
-                            if (object.getBoolean("success")){
-                                Toast.makeText(context,"Delete Verhasil",Toast.LENGTH_SHORT).show();
-                                ((MainActivity)context).onResume();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context,"Delete GAGAL",Toast.LENGTH_SHORT).show();
-            }
-        }){
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                map.put("id",id);
-                return map;
-            }
-        };
-
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
     }
 }

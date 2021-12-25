@@ -1,32 +1,53 @@
 package com.example.praktikum.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.praktikum.model.Chord;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.praktikum.Chord;
+import com.example.praktikum.Constant;
 import com.example.praktikum.DetailChordActivity;
+import com.example.praktikum.EditChordActivity;
+import com.example.praktikum.MainActivity;
+import com.example.praktikum.MyChordActivity;
 import com.example.praktikum.R;
 import com.example.praktikum.helper.DBHelper;
 
-import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChordAdapter extends RecyclerView.Adapter<ChordAdapter.ViewHolder> {
     private Context context;
-    List<Chord> listChord;
+    private ArrayList<Chord> arrayList;
     DBHelper databaseHelper;
 
     //constructor
-    public ChordAdapter(Context context, List<Chord> listChord) {
+    public ChordAdapter(Context context, ArrayList<Chord> arrayList) {
         this.context = context;
-        this.listChord = listChord;
+        this.arrayList = arrayList;
 
         databaseHelper = new DBHelper(context);
     }
@@ -57,13 +78,17 @@ public class ChordAdapter extends RecyclerView.Adapter<ChordAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ChordAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         //get data
-        Chord chord = listChord.get(position);
-        String id = chord.getId();
+        Chord chord = arrayList.get(position);
+        String id_chord = chord.getId();
+//        Log.v("asda", "zzzz");
+//        Log.v("asda", id_chord);
         String judul = chord.getJudul();
         String penyanyi = chord.getPenyanyi();
+        String genre = chord.getGenre();
         String level = chord.getLevel();
         String lamaMenit = chord.getDurasiMenit();
         String lamaDetik = chord.getDurasiDetik();
+        String chordLirik = chord.getChordLirik();
 
         //set data ke views
         holder.textJudulLagu.setText(judul);
@@ -78,7 +103,9 @@ public class ChordAdapter extends RecyclerView.Adapter<ChordAdapter.ViewHolder> 
             public void onClick(View v) {
                 //pass record id to next activity to show details of that records
                 Intent intent = new Intent(context, DetailChordActivity.class);
-                intent.putExtra("id_chord", id);
+                Chord chordNew = new Chord(id_chord, judul, penyanyi, genre, level,
+                        lamaMenit, lamaDetik, chordLirik);
+                intent.putExtra("chord", chordNew);
                 intent.putExtra("asal", "list");
                 context.startActivity(intent);
             }
@@ -87,6 +114,6 @@ public class ChordAdapter extends RecyclerView.Adapter<ChordAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return listChord.size();
+        return arrayList.size();
     }
 }

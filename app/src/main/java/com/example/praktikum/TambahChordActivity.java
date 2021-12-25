@@ -3,7 +3,9 @@ package com.example.praktikum;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,9 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.praktikum.api.Constant;
 import com.example.praktikum.helper.DBHelper;
-import com.example.praktikum.model.Chord;
 
 import java.util.ArrayList;
 import org.json.JSONException;
@@ -44,6 +44,8 @@ public class TambahChordActivity extends AppCompatActivity {
     TextView textmenit,textdetik;
     CheckBox cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8;
     private ArrayList<String> cbs;
+    SharedPreferences sharedPreferencesLogin;
+    String id_user;
 
     private String id, judul_lagu,nama_penyanyi,  level_lagu, menit_lagu, detik_lagu, chord_lagu, genre_lagu;
     private boolean isEditMode = false;
@@ -80,6 +82,7 @@ public class TambahChordActivity extends AppCompatActivity {
         mudah = findViewById(R.id.radioButtonMudah);
         sedang = findViewById(R.id.radioButtonSedang);
         susah = findViewById(R.id.radioButtonSusah);
+
 
 //        //get data dari intent
 //        Intent intent = getIntent();
@@ -344,134 +347,4 @@ public class TambahChordActivity extends AppCompatActivity {
             startActivity(intent);
 //        }
     }
-
-    public void getCheckBoxes(){
-        cbs = new ArrayList<>();
-        String[] benefit = genre_lagu.split("-");
-        if(benefit.length > 1){
-            cb1.setChecked(true);
-            cbs.add(cb1.getText().toString());
-        }
-        if(benefit.length > 2){
-            cb2.setChecked(true);
-            cbs.add(cb2.getText().toString());
-        }
-        if(benefit.length > 3){
-            cb3.setChecked(true);
-            cbs.add(cb3.getText().toString());
-        }
-        if(benefit.length > 4){
-            cb4.setChecked(true);
-            cbs.add(cb4.getText().toString());
-        }
-        if(benefit.length > 5){
-            cb5.setChecked(true);
-            cbs.add(cb5.getText().toString());
-        }
-        if(benefit.length > 6){
-            cb6.setChecked(true);
-            cbs.add(cb6.getText().toString());
-        }
-        if(benefit.length > 7){
-            cb7.setChecked(true);
-            cbs.add(cb7.getText().toString());
-        }
-        if(benefit.length > 8){
-            cb8.setChecked(true);
-            cbs.add(cb8.getText().toString());
-        }
-    }
-
-    private void insertToWebServer(){
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constant.ADD_CHORD;
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        try {
-                            JSONObject object = new JSONObject(response);
-                            if(object.getBoolean("success")){
-                                Intent intent = new Intent(TambahChordActivity.this, MainActivity.class);
-                                startActivity(intent);
-//                                Toast.makeText(getApplicationContext(), "Add Data Success", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(TambahChordActivity.this,"Add Gagal",Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("judul",judul_lagu);
-                map.put("penyanyi", nama_penyanyi);
-                map.put("level",level_lagu);
-                map.put("genre", genre_lagu);
-                map.put("durasi_menit", menit_lagu);
-                map.put("durasi_detik", detik_lagu);
-                map.put("chord_dan_lirik", chord_lagu);
-                return map;
-            }
-        };
-
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
-    }
-//
-//    public void updateToWebServe(){
-//        // Instantiate the RequestQueue.
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url =Constant.UPDATE_CHORD;
-//
-//        // Request a string response from the provided URL.
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        // Display the first 500 characters of the response string.
-//                        try {
-//                            JSONObject object = new JSONObject(response);
-//                            if(object.getBoolean("success")){
-//                                Intent intent = new Intent(TambahChordActivity.this, MainActivity.class);
-//                                startActivity(intent);
-//                                Toast.makeText(getApplicationContext(), "Update Data Success", Toast.LENGTH_SHORT).show();
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(TambahChordActivity.this,"Update Gagal",Toast.LENGTH_SHORT).show();
-//            }
-//        }){
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                HashMap<String, String> map = new HashMap<>();
-//                map.put("id",id);
-//                map.put("judul",judul_lagu);
-//                map.put("penyanyi", nama_penyanyi);
-//                map.put("level",level_lagu);
-//                map.put("genre", genre_lagu);
-//                map.put("durasi_menit", menit_lagu);
-//                map.put("durasi_detik", detik_lagu);
-//                map.put("chord_dan_lirik", chord_lagu);
-//                return map;
-//            }
-//        };
-//
-//        // Add the request to the RequestQueue.
-//        queue.add(stringRequest);
-//    }
 }
